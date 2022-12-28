@@ -1,0 +1,3 @@
+function makeSnowflake() {
+	const snowflake = document.createElement("div");
+}

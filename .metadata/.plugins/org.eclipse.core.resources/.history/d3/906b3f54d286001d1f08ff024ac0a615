@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+   <title>List Customers</title>
+   <!--  css파일 적용-->
+	   <link type= "text/css"
+      rel="stylesheet"
+      href="${pageContext.request.contextPath}/resources/css/style.css"/>
+	  <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+</head>
+<body>
+<div class ="snowflake"></div>
+   <div id="wrapper">
+      <div id="header">
+         <h2>Customer Management</h2>
+      </div>
+   </div>
+
+   <style rel="stylesheet">
+body{
+background-color: hsla(0,0%,0%,1);
+margin: 0px;
+overflow: hidden;
+font-family: 'Molle', cursive;
+}
+h2{
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate( -50%, -50%);
+  font-size:3em;
+  color:hsla(255, 255%, 255%, .1);
+}
+</style>
+</head>
+<body>
+
+<canvas id='canv'></canvas>
+<h2>너의 곁에 눈처럼 내리면</h2>
+
+
+<script type="text/javascript">
+var c = document.getElementById('canv'), 
+    $ = c.getContext("2d");
+var w = c.width = window.innerWidth, 
+    h = c.height = window.innerHeight;
+
+Snowy();
+function Snowy() {
+  var snow, arr = [];
+  var num = 600, tsc = 1, sp = 0.5;  //num:눈송이 개수 , tsc:눈송이 가로 변화율, sp:내리는 속도
+  var sc = 0.8, t = 10, mv = 20, min = 1;  //sc:눈송이 크기
+    for (var i = 0; i < num; ++i) {
+      snow = new Flake();
+      snow.y = Math.random() * (h + 50);
+      snow.x = Math.random() * w;
+      snow.t = Math.random() * (Math.PI * 2);
+      snow.sz = (100 / (10 + (Math.random() * 100))) * sc;
+      snow.sp = (Math.pow(snow.sz * .8, 2) * .15) * sp;
+      snow.sp = snow.sp < min ? min : snow.sp;
+      arr.push(snow);
+    }
+  go();
+  function go(){
+    window.requestAnimationFrame(go);
+      $.clearRect(0, 0, w, h);
+      $.fillStyle = 'hsla(242, 95%, 3%, 1)';
+      $.fillRect(0, 0, w, h);
+      $.fill();
+        for (var i = 0; i < arr.length; ++i) {
+          f = arr[i];
+          f.t += .05;
+          f.t = f.t >= Math.PI * 2 ? 0 : f.t;
+          f.y += f.sp;
+          f.x += Math.sin(f.t * tsc) * (f.sz * .3);
+          if (f.y > h + 50) f.y = -10 - Math.random() * mv;
+          if (f.x > w + mv) f.x = - mv;
+          if (f.x < - mv) f.x = w + mv;
+          f.draw();}
+ }
+ function Flake() {
+   this.draw = function() {
+      this.g = $.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.sz+8);
+      this.g.addColorStop(0, 'hsla(255,255%,255%,1)');
+      this.g.addColorStop(1, 'hsla(255,255%,255%,0)');
+      $.moveTo(this.x, this.y);
+      $.fillStyle = this.g;
+      $.beginPath();
+      $.arc(this.x, this.y, this.sz, 0, Math.PI * 2, true);
+      $.fill();}
+  }
+}
+/*________________________________________*/
+window.addEventListener('resize', function(){
+  c.width = w = window.innerWidth;
+  c.height = h = window.innerHeight;
+}, false);
+
+</script>
+   <div id="container">
+      <div id="content">
+         <!-- add our html table here -->
+         <input type = "button" value = "Add Customer" class ="add-button" 
+         onclick="window.location.href='showFormForAdd'; return false;"/>    
+         <table>
+            <tr>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Email</th>
+               <th>Action</th>
+            </tr>
+            
+            <!-- loop over and print our customers -->
+            <c:forEach var="tempCustomer" items="${customers}">
+            
+               <tr>
+                  <td> ${tempCustomer.firstName} </td>
+                  <td> ${tempCustomer.lastName} </td>
+                  <td> ${tempCustomer.email} </td>
+				  <%-- <c:url value = 'showFormForUpdate?customerId=${tempCustomer.id}' var ="updateLink"/> --%>
+				  <c:url value = 'showFormForUpdate' var ="updateLink">
+				  	<c:param name ="customerId" value = "${tempCustomer.id}"/>
+				  </c:url>
+				  <c:url value = 'delete' var ="deleteLink">
+				  	<c:param name ="customerId" value = "${tempCustomer.id}"/>
+				  </c:url>
+				  
+				  <td><a href = "${updateLink}" style = "text-decoration-line: none">Update</a>
+				  <a href = "${deleteLink}" style = "text-decoration-line: none"> | Delete</a></td>             
+               </tr>
+            
+            </c:forEach>
+                  
+         </table>
+            
+      </div>
+   
+   </div>
+   
+</body>
+</html>
