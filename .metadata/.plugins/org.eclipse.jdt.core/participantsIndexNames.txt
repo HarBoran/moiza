@@ -1,5 +1,13 @@
 INDEX VERSION 1.131
+/Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/1756255198.index
+/moiza/src/main/java
+/Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3764630508.index
+/artBBSProject/src
 /Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3750454120.index
 /web-customer-tracker/src
 /Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/39016037.index
 /web-customer-tracker/src
+/Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/859811391.index
+/artBBSProject/src
+/Users/my/eclip/.metadata/.plugins/org.eclipse.jst.jsp.core/jspsearch/3254214164.index
+/startfile/src/main/java
