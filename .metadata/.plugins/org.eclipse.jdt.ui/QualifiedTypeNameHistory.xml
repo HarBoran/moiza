@@ -7,7 +7,6 @@
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="org.hibernate.internal.build.AllowSysOut"/>
     <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.User.UserBuilder"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.User"/>
@@ -38,4 +37,12 @@
     <fullyQualifiedTypeName name="com.moiza.entity.UsergroupEntity"/>
     <fullyQualifiedTypeName name="com.moiza.entity.Authorities"/>
     <fullyQualifiedTypeName name="com.moiza.entity.Mgroup"/>
+    <fullyQualifiedTypeName name="com.moiza.entity.ImgEntity"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="com.moiza.entity.LocalEntity"/>
+    <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
+    <fullyQualifiedTypeName name="org.springframework.security.core.context.SecurityContextHolder"/>
+    <fullyQualifiedTypeName name="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 </qualifiedTypeNameHistroy>

@@ -16,10 +16,12 @@ public class MgroupEntity {
 	private int mgroup_index;
 	private String mgroup_title;
 	private int mgroup_img;
+	private String mgroup_img_url;
 	private String mgroup_introduce;
 	private String mgroup_maincategory;
 	private String mgroup_middlecategory;
 	private int mgroup_local;
+	private String mgroup_local_name;
 	private Integer mgroup_minage;
 	private Integer mgroup_maxage;
 	private String mgroup_gender;
@@ -28,6 +30,16 @@ public class MgroupEntity {
 
 	public MgroupEntity() {
 
+	}
+
+	@Override
+	public String toString() {
+		return "MgroupEntity [mgroup_index=" + mgroup_index + ", mgroup_title=" + mgroup_title + ", mgroup_img="
+				+ mgroup_img + ", mgroup_img_url=" + mgroup_img_url + ", mgroup_introduce=" + mgroup_introduce
+				+ ", mgroup_maincategory=" + mgroup_maincategory + ", mgroup_middlecategory=" + mgroup_middlecategory
+				+ ", mgroup_local=" + mgroup_local + ", mgroup_local_name=" + mgroup_local_name + ", mgroup_minage="
+				+ mgroup_minage + ", mgroup_maxage=" + mgroup_maxage + ", mgroup_gender=" + mgroup_gender
+				+ ", mgroup_limit=" + mgroup_limit + ", mgroup_out=" + mgroup_out + "]";
 	}
 
 	public int getMgroup_index() {
@@ -52,6 +64,14 @@ public class MgroupEntity {
 
 	public void setMgroup_img(int mgroup_img) {
 		this.mgroup_img = mgroup_img;
+	}
+
+	public String getMgroup_img_url() {
+		return mgroup_img_url;
+	}
+
+	public void setMgroup_img_url(String mgroup_img_url) {
+		this.mgroup_img_url = mgroup_img_url;
 	}
 
 	public String getMgroup_introduce() {
@@ -84,6 +104,14 @@ public class MgroupEntity {
 
 	public void setMgroup_local(int mgroup_local) {
 		this.mgroup_local = mgroup_local;
+	}
+
+	public String getMgroup_local_name() {
+		return mgroup_local_name;
+	}
+
+	public void setMgroup_local_name(String mgroup_local_name) {
+		this.mgroup_local_name = mgroup_local_name;
 	}
 
 	public Integer getMgroup_minage() {
@@ -124,15 +152,6 @@ public class MgroupEntity {
 
 	public void setMgroup_out(int mgroup_out) {
 		this.mgroup_out = mgroup_out;
-	}
-
-	@Override
-	public String toString() {
-		return "MgroupEntity [mgroup_index=" + mgroup_index + ", mgroup_title=" + mgroup_title + ", mgroup_img="
-				+ mgroup_img + ", mgroup_introduce=" + mgroup_introduce + ", mgroup_maincategory=" + mgroup_maincategory
-				+ ", mgroup_middlecategory=" + mgroup_middlecategory + ", mgroup_local=" + mgroup_local
-				+ ", mgroup_minage=" + mgroup_minage + ", mgroup_maxage=" + mgroup_maxage + ", mgroup_gender="
-				+ mgroup_gender + ", mgroup_limit=" + mgroup_limit + ", mgroup_out=" + mgroup_out + "]";
 	}
 
 }

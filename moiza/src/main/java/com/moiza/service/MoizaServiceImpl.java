@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.moiza.entity.Authorities;
+import com.moiza.entity.ImgEntity;
+import com.moiza.entity.LocalEntity;
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
@@ -27,8 +29,15 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public List<MgroupEntity> getSubscribedMgroup(int userIndex) {
-		return moizaDao.getSubscribedMgroup(userIndex);
+	public List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole) {
+		return moizaDao.getSubscribedMgroup(userIndex, usergroupUserRole);
+	}
+	
+	@Override
+	@Transactional
+	public List<MgroupEntity> bestGroup() {
+
+		return moizaDao.bestGroup();
 	}
 
 	@Override
@@ -95,5 +104,49 @@ public class MoizaServiceImpl implements MoizaService {
 		moizaDao.makeTheLeader(usergroupEntity);
 		
 	}
+
+	@Override
+	@Transactional
+	public List<ImgEntity> getImg() {
+		return moizaDao.getImg();
+	}
+
+	@Override
+	@Transactional
+	public void savejoingroup(int userIndex, int mgroupIndex) {
+		moizaDao.savejoingroup(userIndex, mgroupIndex);	
+		
+	}
+
+	@Override
+	@Transactional
+	public List<UserEntity> theUserInformation(String userId) {
+		return moizaDao.theUserInformation(userId);
+	}
+
+	@Override
+	@Transactional
+	public void updateUserInfo(int user_index, String user_phone, String password) {
+		moizaDao.updateUserInfo(user_index, user_phone, password);
+		
+	}
+
+	@Override
+	@Transactional
+	public void DeleteUser(String userId) {
+		moizaDao.DeleteUser(userId);
+	}
+
+	@Override
+	@Transactional
+	public List<LocalEntity> getLocal() {
+		return moizaDao.getLocal();
+	}
+
+	@Override
+	@Transactional
+	public List<MgroupEntity> searchGroup(String searchGroup) {
+		return moizaDao.searchGroup(searchGroup);
+	}	
 
 }

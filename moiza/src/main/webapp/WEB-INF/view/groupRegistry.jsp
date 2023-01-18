@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bootstrap Example</title>
+<title>GroupRegistry</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -16,7 +17,13 @@
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 제이쿼리 모달-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<jsp:useBean id="now" class="java.util.Date" />
 </head>
+
 <style>
 .active {
 	left: 350px;
@@ -63,12 +70,30 @@ body {
 		$("#mainSelect").change(update_selected);
 		$("#mainSelect").trigger("change");
 	});
+	
+
+	$(document).ready(function(){
+		$("#img_select").click(function() {
+			 $('#img_select').modal('show');
+		});
+
+		$('#confirm_id').click(function() {
+
+			//부모창의 id가 id인 input 태그에 'dragon' 이라는 문자열 저장하기
+			$('#id', opener.document).val('dragon');
+
+			//아래와 같이 명시하는 것도 가능함
+			//$(opener.document).find('#id').val('dragon');
+
+			self.close();
+		});
+	});
 </script>
 <body>
 	<div class="jumbotron">
 		<div class="container text-center">
-			<a href="${pageContext.request.contextPath}/"><h1>Online
-					Store</h1></a>
+			<a href="${pageContext.request.contextPath}/">
+			<h1>Moiza</h1></a>
 			<p>Mission, Vission & Values</p>
 		</div>
 	</div>
@@ -80,18 +105,15 @@ body {
 			<code>형식에 알맞게</code>
 			항목을 채워주세요~
 		</p>
+		<hr style="border: outset 10px;">
 		<form:form action="groupCreation" modelAttribute="mgroup"
 			class="was-validated" method="GET">
 
-			<label for="usr">원하시는 밴드 이름 적어주세요~</label>
-			<div class="form-group">
-				<form:input path="mgroup_title" class="form-control" id="uname"
-					placeholder="밴드 이름" />
-				<div class="valid-feedback"></div>
-				<div class="invalid-feedback">Please fill out this field.</div>
-			</div>
 			<label>원하시는 이미지를 골라주세요~</label>
-			<div class="form-group">
+			<form:hidden path="mgroup_img" value = "${theImg.img_index}"/>
+			<form:hidden path="mgroup_img_url" value = "${theImg.img_url}"/>
+			<form:hidden path="mgroup_local_name" value = "${mgroup_local_name}"/>
+			<%-- <div class="form-group">
 				<form:select class="form-control" path="mgroup_img">
 					<option value="0" selected="selected">이미지를 선택해주세요</option>
 					<option value="1">1</option>
@@ -99,7 +121,45 @@ body {
 					<option value="3">3</option>
 					<option value="4">4</option>
 				</form:select>
+			</div> --%>
+			<div class="form-group">
+				<a href="${pageContext.request.contextPath}/select_img">
+					<c:choose>
+					<c:when test="${theImg.img_index == null}">
+							<img src="${pageContext.request.contextPath}/img/select_img.png"
+								class="rounded" style="border: 2px Dashed black" alt=" 이미지
+								선택하기" width="200" height="200" />
+						</c:when>
+					<c:otherwise>
+						<img src="${theImg.img_url}" class="rounded" alt="${theImg.img_index}" width="200" height="200"/>			
+					</c:otherwise>
+					</c:choose>
+				</a>	
+			</div>	
+	
+			<!-- <a href="#imgmodal" id = "img_select">이미지 선택하기(모달x)</a>
+				<div id="imgmodal" class="modal">
+					<p>모임 이미지를 선택하세요</p>
+					<a href="" rel="modal:close">닫기</a>
+					<input id = "selectedimg">
+					<button id = "button">선택</button>
+				</div>
+			<br> -->
+			
+			<label for="usr">원하시는 밴드 이름 적어주세요~</label>
+			<div class="form-group">
+				<form:input path="mgroup_title" class="form-control" id="uname"
+					placeholder="밴드 이름" />
+				<div class="valid-feedback"></div>
+				<div class="invalid-feedback">Please fill out this field.</div>
 			</div>
+			
+			<label for="comment">간단한 모임 소개 ~</label>
+			<div class="form-group">
+				<form:textarea class="form-control" rows="5" id="comment"
+					path="mgroup_introduce"></form:textarea>
+			</div>
+			
 			<label>원하시는 분류를 골라주세요~</label>
 			<div class="form-group">
 				<form:select id="mainSelect" class="form-control"
@@ -201,12 +261,11 @@ body {
 			<div class="form-group">
 				<form:select path="mgroup_local" class="form-control" id="sel1"
 					placeholder="선택하세요">
-					<option value=0>지역을 선택해 주세요</option>
-					<option value=1>서울</option>
-					<option value=2>전라도</option>
-					<option value=3>경기</option>
-					<option value=4>강원도</option>
-					<option value=5>경상도</option>
+						<!-- <option value="">지역을 선택해 주세요</option> -->
+						<option value=0>지역제한 없음</option>
+					<c:forEach var="myLocal" items="${theLocal}">
+						<option value="${myLocal.local_index}">${myLocal.local_name}</option>
+					</c:forEach>
 				</form:select>
 			</div>
 
@@ -214,10 +273,12 @@ body {
 			<div class="form-group">
 				<form:select path="mgroup_minage" class="form-control" id="sel1"
 					placeholder="선택하세요">
-					<option value="">나이를 선택해 주세요</option>
-					<option value=0>상관없음</option>
-					<option value=15>15세 이상</option>
-					<option value=19>19세 이상</option>
+					<fmt:formatDate value="${now}" pattern="yyyy" var="nowyear" />
+						<!-- <option value="">나이를 선택해 주세요</option> -->
+						<option value=0>제한없음</option>
+					<c:forEach var="i" begin="1" end="100">
+						<option value="${i}">${nowyear-i+1}년생</option>  
+					</c:forEach>
 				</form:select>
 			</div>
 
@@ -225,10 +286,11 @@ body {
 			<div class="form-group">
 				<form:select path="mgroup_maxage" class="form-control" id="sel1"
 					placeholder="선택하세요">
-					<option value="">나이를 선택해 주세요</option>
-					<option value=0>상관없음</option>
-					<option value=30>30세 미만</option>
-					<option value=40>40세 미만</option>
+						<!-- <option value="">나이를 선택해 주세요</option> -->
+						<option value=0>제한없음</option>
+					<c:forEach var="i" begin="1" end="100">
+						<option value="${i}">${nowyear-i+1}년생</option>  
+					</c:forEach>
 				</form:select>
 			</div>
 
@@ -237,10 +299,10 @@ body {
 			<div class="form-group">
 				<form:select path="mgroup_gender" class="form-control" id="sel1"
 					placeholder="선택하세요">
-					<option value="">성별을 제한해 주세요</option>
+					<!-- <option value="">성별을 제한해 주세요</option> -->
 					<option value="none">상관없음</option>
-					<option value="male">남자만~</option>
-					<option value="female">여자만~</option>
+					<option value="male">남성만~</option>
+					<option value="female">여성만~</option>
 				</form:select>
 			</div>
 
@@ -249,23 +311,13 @@ body {
 			<div class="form-group">
 				<form:select path="mgroup_limit" class="form-control" id="sel1"
 					placeholder="선택하세요">
-					<option value="">인원을 제한해 주세요</option>
-					<option value=0>제한없음</option>
-					<option value=10>10명</option>
-					<option value=20>20명</option>
-					<option value=30>30명</option>
-				</form:select>
-				<div class="valid-feedback">Valid.</div>
-				<div class="invalid-feedback">Check this checkbox to continue.</div>
+						<!-- <option value="">인원을 제한해 주세요</option> -->
+					<c:forEach var="i" begin="3" end="30">
+						<option value="${i}">${i}명</option>  
+					</c:forEach>
+				</form:select>	
 			</div>
 			
-			<label for="comment">간단한 모임 소개 ~</label>
-			<div class="form-group">
-				<form:textarea class="form-control" rows="5" id="comment"
-					path="mgroup_introduce"></form:textarea>
-			</div>
-
-
 			<button type="submit" class="btn btn-primary">등록!</button>
 		</form:form>
 	</div>

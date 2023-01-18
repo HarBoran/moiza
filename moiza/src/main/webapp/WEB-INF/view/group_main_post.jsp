@@ -81,15 +81,16 @@ bside {
 		<div id="container">
 
 			<aside>
-				<div>여기는 나중에 디폴트 이미지로 ${mgroup[0].mgroup_img}</div>
-				<img id="mgroupMainImg"
-					src="${pageContext.request.contextPath}/img/cat.jpg" />
+				<div><img id="mgroupMainImg"
+					src="{mgroup[0].mgroup_img_url}"/> </div>
 			 	<h2>${mgroup[0].mgroup_title}</h2>
 				<h4>${mgroup[0].mgroup_introduce}</h4>
 				<h5>테마 : ${mgroup[0].mgroup_maincategory}</h5>
 				<h5>테마 : ${mgroup[0].mgroup_middlecategory}</h5>
-				<h5>지역 : ${mgroup[0].mgroup_local}</h5>
+				<h5>지역 : ${mgroup[0].mgroup_local_name}</h5>
 				<h5>인원수 : /${mgroup[0].mgroup_limit}</h5>
+				<c:url value = "/joingroup?mgroupIndex=${mgroup[0].mgroup_index}" var ="joingroup"/>
+                  <a href = "${joingroup}" style = "text-decoration-line: none"><b>가입하기</b></a>
 
 			</aside>
 
@@ -112,7 +113,6 @@ bside {
 				<ul>
 					<li>로그아웃</li>
 					<li>마이페이지</li>
-					<li>새모임 만들기</li>
 					<li>모임관리하기</li>
 					<li><c:url value = "/writing_post?mgroupIndex=${mgroup[0].mgroup_index}" var ="writingPost"/>
 						<a href = "${writingPost}" style = "text-decoration-line: none"> 글쓰기</a></li>

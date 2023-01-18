@@ -8,66 +8,83 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
 <title>Login or Sign up</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<jsp:useBean id="now" class="java.util.Date" />
-	<script>
-       $(document).ready(function(){   
-      
-          if($("#pwd").val() != $("#pwd_check").val()){
-             alert("비밀번호가 맞지 않습니다.")
-             return false;
-             }
-          });             
-       });
-    
-    </script>
-	<main>
-		<div class="row">
-			<div class="colm-logo">
 
-				<div class="jumbotron">
-					<div class="container text-center">
-						<a href="${pageContext.request.contextPath}/"><h1>Moiza</h1></a>
+	<main>
+		<div class="colm-logo">
+
+			<div class="jumbotron">
+				<div class="container text-center">
+					<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+
+					<h1>
+						<b>Moiza</b>
+					</h1>
+					<p>Mission, Vission & Values</p>
+				</div>
+			</div>
+			<div class="row">
+
+				<div class="colm-form">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<hr>
+					<h1>
+						<b>Sign UP</b>
+					</h1>
+					<div class="form-container">
+						<c:if test="${param.error==''}">
+							<div style="color: red;">이미 존재하는 아이디 입니다</div>
+						</c:if>
+						<form:form action="saveUser" method="GET" class="was-validated">
+							<div class="form-group">
+								<input type="text" name="username" placeholder="userID" required>
+								<div class="valid-feedback"></div>
+								<div class="invalid-feedback">ID를 입력해주세요</div>
+							</div>
+							<input type="password" id="password" name="password"
+								placeholder="Password">
+
+
+							<input type="text" name="user_name" placeholder="Name">
+							<input type="text" name="user_phone"
+								placeholder="Phone number (exception - ,only number)">
+							<input type="text" name="user_birth"
+								placeholder="Birth (input six numbers)">
+							<input type="text" name="user_gender" placeholder="Gender">
+							<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="now" />
+							<input type="hidden" name="user_joinday" value="${now}">
+							<input type="hidden" name="user_out" value="0">
+							<input type="hidden" name="enabled" value="1">
+							<input type="hidden" name="authority" value="ROLE_EMPLOYEE">
+
+							<button type="submit" value="Save" class="btn-login">가입하기</button>
+							<a href="${pageContext.request.contextPath}/">홈으로 가기</a>
+						</form:form>
 					</div>
 				</div>
 			</div>
-			<div class="colm-form">
-				<h1>
-					<b>Sign up</b>
-				</h1>
-				<br>
-				<div class="form-container">
-
-					<form:form action="saveUser" method="GET">
-
-						<input type="text" name="username" placeholder="userID">
-						<input type="password" id="pwd" name="password"
-							placeholder="Password">
-
-						<!--  <input type="password"id = "pwd_check" name="user_password" placeholder="Password Check"> -->
-
-						<input type="text" name="user_name" placeholder="Name">
-						<input type="text" name="user_phone"
-							placeholder="Phone number (exception - ,only number)">
-						<input type="text" name="user_birth"
-							placeholder="Birth (input six numbers)">
-						<input type="text" name="user_gender" placeholder="Gender">
-						<fmt:formatDate value="${now}" pattern="yyyyMMdd" var="now" />
-						<input type="hidden" name="user_joinday" value="${now}">
-						<input type="hidden" name="user_out" value="0">
-						<input type="hidden" name="enabled" value="1">
-						<input type="hidden" name="authority" value="ROLE_EMPLOYEE">
-
-						<button type="submit" value="Save" class="btn-login">가입하기</button>
-					</form:form>
-				</div>
-			</div>
 		</div>
+
 	</main>
+
 
 </body>
 </html>

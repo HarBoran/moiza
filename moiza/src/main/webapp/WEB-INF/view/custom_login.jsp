@@ -8,35 +8,66 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login or Sign up</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 	<main>
-		<div class="row">
-			<div class="colm-logo">
 
-				<div class="jumbotron">
-					<div class="container text-center">
-						<a href="${pageContext.request.contextPath}/"><h1>Moiza</h1></a>
-					</div>
-				</div>
+
+		<div class="jumbotron">
+			<div class="container text-center">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+
+				<h1>
+					<b>Moiza</b>
+				</h1>
+				<p>Mission, Vission & Values</p>
 			</div>
+		</div>
+		<div class="row">
+
 			<div class="colm-form">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<hr>
+				<h1>
+					<b>LogIn</b>
+				</h1>
 				<div class="form-container">
 					<c:if test="${param.error==''}">
 						<div style="color: red;">ID와 PASSWORD를 확인 해주세요</div>
 					</c:if>
-					<c:if test="${param.logout==''}">
-						<div style="color: blue;">로그아웃 되었습니다 !</div>
-					</c:if>
-					<form:form action="authenticateTheUser" method="POST">
-						<input type="text" name="username" placeholder="userID">
-						<input type="password" name="password" placeholder="Password">
+
+					<form:form action="authenticateTheUser" method="POST"
+						class="was-validated">
+						<div class="form-group">
+							<input type="text" name="username" placeholder="userID" required>
+							<div class="valid-feedback"></div>
+							<div class="invalid-feedback">ID를 입력해주세요</div>
+						</div>
+
+						<div class="form-group">
+							<input type="password" name="password" placeholder="Password"
+								required>
+							<div class="valid-feedback"></div>
+							<div class="invalid-feedback">PASSWORD를 입력해주세요</div>
+						</div>
 						<button type="submit" value="Login" class="btn-login">로그인하기</button>
 						<a href="${pageContext.request.contextPath}/join">Create new
 							Account</a>
+						<a href="${pageContext.request.contextPath}/">홈으로 가기</a>
 					</form:form>
 				</div>
 			</div>

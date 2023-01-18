@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.moiza.entity.Authorities;
+import com.moiza.entity.ImgEntity;
+import com.moiza.entity.LocalEntity;
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
@@ -45,7 +47,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	}
 
 	@Override
-	public List<MgroupEntity> getSubscribedMgroup(int userIndex) {
+	public List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole) {
 
 		List<MgroupEntity> theSubscribedMgroup = new ArrayList<MgroupEntity>();
 		Connection conn = null;
@@ -54,10 +56,18 @@ public class MoizaDaoImpl implements MoizaDao {
 
 		try {
 			conn = dataSource.getConnection();
-
-			String sql = "SELECT * FROM mgroup join usergroup "
-					+ "ON mgroup.mgroup_index = usergroup.usergroup_group_index " + "WHERE usergroup_user_index = "
-					+ userIndex;
+			String sql = null;
+			if(usergroupUserRole.equals("admin")){
+				sql = "SELECT * FROM mgroup join usergroup"
+						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+						+" WHERE usergroup_user_index = "+ userIndex
+						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
+			}else if(usergroupUserRole.equals("employee")){
+				sql = "SELECT * FROM mgroup join usergroup"
+						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+						+" WHERE usergroup_user_index = "+ userIndex
+						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
+			}
 			mySt = conn.createStatement();
 			myRs = mySt.executeQuery(sql);
 			while (myRs.next()) {
@@ -66,10 +76,12 @@ public class MoizaDaoImpl implements MoizaDao {
 				group.setMgroup_index(myRs.getInt("mgroup_index"));
 				group.setMgroup_title(myRs.getString("mgroup_title"));
 				group.setMgroup_img(myRs.getInt("mgroup_img"));
+				group.setMgroup_img_url(myRs.getString("mgroup_img_url"));
 				group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
 				group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
 				group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
 				group.setMgroup_local(myRs.getInt("mgroup_local"));
+				group.setMgroup_local_name(myRs.getString("mgroup_local_name"));
 				group.setMgroup_minage(myRs.getInt("mgroup_minage"));
 				group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
 				group.setMgroup_gender(myRs.getString("mgroup_gender"));
@@ -88,11 +100,54 @@ public class MoizaDaoImpl implements MoizaDao {
 
 		return theSubscribedMgroup;
 	}
+	
+	   @Override
+	   public List<MgroupEntity> bestGroup() {
+	      
+	      List<MgroupEntity> bestGroup = new ArrayList<MgroupEntity>();
+	      Connection conn = null;
+	      Statement mySt = null;
+	      ResultSet myRs = null;
+
+	      try {
+	         conn = dataSource.getConnection();
+
+	         String sql = "SELECT * FROM usergroup  join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc limit 3";
+	               
+	         mySt = conn.createStatement();
+	         myRs = mySt.executeQuery(sql);
+	         while (myRs.next()) {
+
+	            MgroupEntity group = new MgroupEntity();
+	            group.setMgroup_index(myRs.getInt("mgroup_index"));
+	            group.setMgroup_title(myRs.getString("mgroup_title"));
+	            group.setMgroup_img(myRs.getInt("mgroup_img"));
+	            group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
+	            group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
+	            group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
+	            group.setMgroup_local(myRs.getInt("mgroup_local"));
+	            group.setMgroup_minage(myRs.getInt("mgroup_minage"));
+	            group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
+	            group.setMgroup_gender(myRs.getString("mgroup_gender"));
+	            group.setMgroup_limit(myRs.getInt("mgroup_limit"));
+	            group.setMgroup_out(myRs.getInt("mgroup_out"));
+
+	            bestGroup.add(group);
+	         }
+	         myRs.close();
+	         mySt.close();
+	         conn.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+
+	      return bestGroup;
+	   }
 
 	@Override
 	public void saveUser(UserEntity user) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		System.out.println(user);
 		currentSession.save(user);
 	}
 
@@ -219,6 +274,104 @@ public class MoizaDaoImpl implements MoizaDao {
 	public void makeTheLeader(UsergroupEntity usergroupEntity) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(usergroupEntity);
+	}
+
+	@Override
+	public List<ImgEntity> getImg() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<ImgEntity> theQuery = currentSession.createQuery("from ImgEntity", ImgEntity.class);
+		List<ImgEntity> Imgs = theQuery.getResultList();
+		return Imgs;
+	}
+	
+	@Override
+	public void savejoingroup(int userIndex, int mgroupIndex) {
+
+		Connection conn = null;
+		Statement mySt = null;
+
+		try {
+			conn = dataSource.getConnection();
+
+			String sql = "INSERT INTO usergroup(usergroup_user_index,usergroup_group_index,usergroup_user_role) values("
+					+ userIndex + "," + mgroupIndex + "," + "'employee')";
+			mySt = conn.createStatement();
+			mySt.execute(sql);
+			System.out.print(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	   @Override
+	   public void updateUserInfo(int user_index, String user_phone, String password) {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	      String hql = "UPDATE UserEntity set user_phone = :Suser_phone,"
+	            + "password = :Spassword"          
+	            +" WHERE user_index = :Suser_index" ;
+	      System.out.println(hql);
+	      Query theQuery = currentSession.createQuery(hql);
+	      theQuery.setParameter("Suser_phone", user_phone);   
+	      theQuery.setParameter("Suser_index", user_index);
+	      theQuery.setParameter("Spassword", password);
+	      
+	   
+	      
+	      theQuery.executeUpdate();
+	      
+	   }
+
+	   @Override
+	   public void DeleteUser(String userId) {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	      
+	      String hql = "DELETE FROM UserEntity "  + 
+	                "WHERE username = :User_id";
+	      Query theQuery = currentSession.createQuery(hql);
+	      System.out.print(hql);
+	      theQuery.setParameter("User_id",userId);
+	      theQuery.executeUpdate();
+	      
+	   }
+	   
+	   @Override
+	   public List<UserEntity> theUserInformation(String userId) {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	      String hql = "from UserEntity where username = :userId";
+	      Query<UserEntity> theQuery = currentSession.createQuery(hql, UserEntity.class);
+	      theQuery.setParameter("userId", userId);
+	      List<UserEntity> Users = theQuery.getResultList();
+	      return Users;
+	   }
+
+	@Override
+	public List<LocalEntity> getLocal() {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<LocalEntity> theQuery = currentSession.createQuery("from LocalEntity", LocalEntity.class);
+		List<LocalEntity> Locals = theQuery.getResultList();
+		return Locals;
+	}
+	   
+	
+	@Override
+	public List<MgroupEntity> searchGroup(String searchGroup) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		searchGroup = searchGroup.trim().replace(" ", "");
+		Query theQuery = null;
+
+		String hql = "select M from MgroupEntity M where M.mgroup_maincategory like :SsearchGroup or M.mgroup_middlecategory like :SsearchGroup or M.mgroup_local like :SsearchGroup";
+
+		if (searchGroup != null && searchGroup.length() > 0) {
+			theQuery = currentSession.createQuery(hql, MgroupEntity.class);
+			theQuery.setParameter("SsearchGroup", "%" + searchGroup + "%");
+		} else {
+			theQuery = currentSession.createQuery("From MgroupEntity", MgroupEntity.class);
+		}
+		List<MgroupEntity> searchGroups = theQuery.getResultList();
+
+		return searchGroups;
+
 	}
 
 }
