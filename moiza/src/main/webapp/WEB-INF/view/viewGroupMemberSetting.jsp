@@ -24,6 +24,8 @@
 		</div>
 	</div>
 	</div>
+	
+	<c:if test="${theUsergroupRole eq 'admin'}">
 	<div class = "container">
 	<table border ="2px">
 		<p> admin = 모임장 / normal =일반회원 / employee = 가입대기중인 회원</p>
@@ -74,6 +76,27 @@
 	</c:forEach>
 	</table>
 	</div>
+	</c:if>
+	<br>
+	<c:if test="${theUsergroupRole eq 'admin'}">
+	<div class="container">
+		모임 해체하기
+	</div>
+	</c:if>
+	
+	<c:if test="${theUsergroupRole eq 'normal'}">
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<c:url value="/goout" var="exile">						
+			<c:param name="usergroup_index" value="${GroupMyInfo.usergroup_index}" />
+			<c:param name="mgroupIndex" value="${GroupMyInfo.usergroup_group_index}"/>
+		</c:url>
+		<a href="${exile}" style="text-decoration-line: none">탈퇴하기</a>
+	</div>
+	</c:if>
 	
 	
 	

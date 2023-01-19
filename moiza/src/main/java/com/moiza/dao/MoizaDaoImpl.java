@@ -49,7 +49,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	}
 
 	@Override
-	public List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole) {
+	public List<MgroupEntity> getSubscribedMgroup(int userIndex) {
 
 		List<MgroupEntity> theSubscribedMgroup = new ArrayList<MgroupEntity>();
 		Connection conn = null;
@@ -58,28 +58,11 @@ public class MoizaDaoImpl implements MoizaDao {
 
 		try {
 			conn = dataSource.getConnection();
-			String sql = null;
-			if(usergroupUserRole.equals("admin or normal")){
-				sql = "SELECT * FROM mgroup join usergroup"
+			String sql ="SELECT * FROM mgroup join usergroup"
 						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
 						+" WHERE usergroup_user_index = "+ userIndex
-						+" and usergroup_user_role = \"admin\" or \"normal\" limit 5";
-			}else if (usergroupUserRole.equals("admin")){
-				sql = "SELECT * FROM mgroup join usergroup"
-						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
-						+" WHERE usergroup_user_index = "+ userIndex
-						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
-			}else if(usergroupUserRole.equals("normal")){
-				sql = "SELECT * FROM mgroup join usergroup"
-						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
-						+" WHERE usergroup_user_index = "+ userIndex
-						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
-			}else if(usergroupUserRole.equals("employee")){
-				sql = "SELECT * FROM mgroup join usergroup"
-						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
-						+" WHERE usergroup_user_index = "+ userIndex
-						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
-			}
+						+" and usergroup_user_role = (\"admin\" or \"normal\") limit 5";
+			
 			mySt = conn.createStatement();
 			myRs = mySt.executeQuery(sql);
 			while (myRs.next()) {
@@ -141,7 +124,7 @@ public class MoizaDaoImpl implements MoizaDao {
                 + "any_value(post_like) as post_like FROM usergroup "
                 + "join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index "
                 + "join post on usergroup.usergroup_index = post_usergroup_index group by mgroup_title order by post_like desc limit 3";
-            System.out.println(sql);    
+          
           mySt = conn.createStatement();
           myRs = mySt.executeQuery(sql);
           while (myRs.next()) {
@@ -180,16 +163,13 @@ public class MoizaDaoImpl implements MoizaDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(user);
 	}
-
+	
 	@Override
-	public List<MgroupEntity> getConnectedGroupInfo(int groupIndex) {
+	public MgroupEntity getConnectedGroupInfo(int groupIndex) {
 
 		Session currentSession = sessionFactory.getCurrentSession();
-		Query<MgroupEntity> theQuery = currentSession.createQuery("from MgroupEntity where mgroup_index = :groupIndex",
-				MgroupEntity.class);
-		theQuery.setParameter("groupIndex", groupIndex);
-		List<MgroupEntity> theGroup = theQuery.getResultList();
-		return theGroup;
+		MgroupEntity theGroupInfo = currentSession.get(MgroupEntity.class, groupIndex);
+		return theGroupInfo;
 	}
 	
 	@Override
@@ -271,16 +251,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	}
 
 	@Override
-	public void saveUser1(UserEntity user) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.save(user);
-	}
-
-	@Override
 	public void saveAuthority(Authorities authorities) {
-		System.out.println(authorities.getAuthority());
-		System.out.println(authorities.getUsername());
-
 		String a = authorities.getAuthority();
 		String v = authorities.getUsername();
 		Connection conn = null;
@@ -317,7 +288,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	}
 	
 	@Override
-	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex) {
+	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex, int userIndex) {
 		List<UsergroupUserDto> GroupUsersInfo = new ArrayList<UsergroupUserDto>();
 		Connection conn = null;
 		Statement mySt = null;
@@ -326,7 +297,9 @@ public class MoizaDaoImpl implements MoizaDao {
 		try {
 			conn = dataSource.getConnection();
 			String sql = "SELECT * FROM usergroup JOIN users ON usergroup.usergroup_user_index = users.user_index WHERE usergroup_group_index = " + mgroupIndex;
-			
+			if(userIndex > 0) {
+				sql = sql + " and usergroup_user_index = " + userIndex;
+			}
 			mySt = conn.createStatement();
 			myRs = mySt.executeQuery(sql);
 			while (myRs.next()) {
@@ -384,7 +357,6 @@ public class MoizaDaoImpl implements MoizaDao {
 					+ userIndex + "," + mgroupIndex + "," + "'employee')";
 			mySt = conn.createStatement();
 			mySt.execute(sql);
-			System.out.print(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -397,7 +369,6 @@ public class MoizaDaoImpl implements MoizaDao {
 	      String hql = "UPDATE UserEntity set user_phone = :Suser_phone,"
 	            + "password = :Spassword"          
 	            +" WHERE user_index = :Suser_index" ;
-	      System.out.println(hql);
 	      Query theQuery = currentSession.createQuery(hql);
 	      theQuery.setParameter("Suser_phone", user_phone);   
 	      theQuery.setParameter("Suser_index", user_index);
@@ -416,7 +387,6 @@ public class MoizaDaoImpl implements MoizaDao {
 	         String hql = "DELETE FROM UserEntity "  + 
 	                   "WHERE user_index = :User_id";
 	         Query theQuery = currentSession.createQuery(hql);
-	         System.out.print(hql);
 	         theQuery.setParameter("User_id",user_index);
 	         theQuery.executeUpdate();
 	         
@@ -554,7 +524,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	@Override
 	public void nonMemberRegistration(UsergroupEntity usergroupInfo) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		currentSession.saveOrUpdate(usergroupInfo);
+		currentSession.update(usergroupInfo);
 		
 	}
 

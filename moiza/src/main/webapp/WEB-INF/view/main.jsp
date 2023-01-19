@@ -171,15 +171,11 @@ body {
 
 				<security:authorize access="isAuthenticated()">
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/test"> <span
-							class="glyphicon glyphicon-user"></span> groupCreation
-					</a></li>
-					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/Mypage"> <span
 							class="glyphicon glyphicon-user"></span> My Page
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/test"> <span
+						href="${pageContext.request.contextPath}/beforeGroupCreation"> <span
 							class="glyphicon glyphicon-user"></span> groupCreation
 					</a></li>
 					<li><a class="nav-link"

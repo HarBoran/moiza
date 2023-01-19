@@ -119,15 +119,11 @@ body {
 
             <security:authorize access="isAuthenticated()">
                <li class="nav-item"><a class="nav-link"
-                  href="${pageContext.request.contextPath}/test"> <span
-                     class="glyphicon glyphicon-user"></span> groupCreation
-               </a></li>
-               <li class="nav-item"><a class="nav-link"
                   href="${pageContext.request.contextPath}/Mypage"> <span
                      class="glyphicon glyphicon-user"></span> My Page
                </a></li>
                <li class="nav-item"><a class="nav-link"
-                  href="${pageContext.request.contextPath}/test"> <span
+                  href="${pageContext.request.contextPath}/beforeGroupCreation"> <span
                      class="glyphicon glyphicon-user"></span> groupCreation
                </a></li>
                
@@ -172,7 +168,33 @@ body {
             </c:forEach>
          </div>
          
+            
+        
             <div class="col-sm-4">
+             가입중인 모임<br>
+   <c:forEach var ="thejoinMgroup" items = "${thejoinMgroup}">
+            <div class="panel panel-primary">
+               <div class="panel-heading">${thejoinMgroup.mgroup_title}</div>
+               <div class="panel-body">
+                  <img src="${thejoinMgroup.mgroup_img_url}"
+                     class="img-responsive" style="width: 50%" alt="Image">
+               </div>
+               <div class="panel-footer">${thejoinMgroup.mgroup_maincategory}/${thejoinMgroup.mgroup_middlecategory}</div>
+             <security:authorize access="isAuthenticated()">     
+               <div class="panel-footer">
+               <c:url
+                     value="/group_main_post?mgroupIndex=${thejoinMgroup.mgroup_index}"
+                     var="enterGroup" />
+               <a href = "${enterGroup}" style="text-decoration-line: none">밴드 들어가기</a>
+               </div>
+               </security:authorize>
+               
+            </div>
+            </c:forEach>
+         </div>
+         
+         
+         <div class="col-sm-4">
               가입대기중인 모임<br>
    <c:forEach var ="theWaitingMgroup" items = "${theWaitingMgroup}">
             <div class="panel panel-primary">
@@ -194,32 +216,9 @@ body {
             </div>
             </c:forEach>
          </div>
-        
-            <div class="col-sm-4">
-             가입중인 모임<br>
-   <c:forEach var ="thejoinMgroup" items = "${thejoinMgroup}">
-            <div class="panel panel-primary">
-               <div class="panel-heading">${thejoinMgroup.mgroup_title}</div>
-               <div class="panel-body">
-                  <img src="${theleaderMgroup.mgroup_img_url}"
-                     class="img-responsive" style="width: 50%" alt="Image">
-               </div>
-               <div class="panel-footer">${thejoinMgroup.mgroup_maincategory}/${thejoinMgroup.mgroup_middlecategory}</div>
-             <security:authorize access="isAuthenticated()">     
-               <div class="panel-footer">
-               <c:url
-                     value="/group_main_post?mgroupIndex=${thejoinMgroup.mgroup_index}"
-                     var="enterGroup" />
-               <a href = "${enterGroup}" style="text-decoration-line: none">밴드 들어가기</a>
-               </div>
-               </security:authorize>
-               
-            </div>
-            </c:forEach>
-         </div>
-      </div>
-      
          
+         
+      </div>   
    </div>
 
 

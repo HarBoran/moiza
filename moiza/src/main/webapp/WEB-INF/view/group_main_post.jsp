@@ -83,22 +83,23 @@ bside {
 		</header>
 	</div>
 
-
 	<div class="container">
 		<div id="container">
 
 			<aside>
 				<div><img id="mgroupMainImg"
-					src="{mgroup[0].mgroup_img_url}"/> </div>
-			 	<h2>${mgroup[0].mgroup_title}</h2>
-				<h4>${mgroup[0].mgroup_introduce}</h4>
-				<h5>테마 : ${mgroup[0].mgroup_maincategory}</h5>
-				<h5>테마 : ${mgroup[0].mgroup_middlecategory}</h5>
-				<h5>지역 : ${mgroup[0].mgroup_local_name}</h5>
-				<h5>인원수 : /${mgroup[0].mgroup_limit}</h5>
-				<c:url value = "/joingroup?mgroupIndex=${mgroup[0].mgroup_index}" var ="joingroup"/>
-                  <a href = "${joingroup}" style = "text-decoration-line: none"><b>가입하기</b></a>
-
+					src="{mgroup.mgroup_img_url}"/> </div>
+			 	<h2>${mgroup.mgroup_title}</h2>
+				<h4>${mgroup.mgroup_introduce}</h4>
+				<h5>테마 : ${mgroup.mgroup_maincategory}</h5>
+				<h5>테마 : ${mgroup.mgroup_middlecategory}</h5>
+				<h5>지역 : ${mgroup.mgroup_local_name}</h5>
+				<h5>인원수 : /${mgroup.mgroup_limit}</h5>
+				<h5>회원등급 ${theUsergroupRole}</h5>
+				<c:if test="${theUsergroupRole eq 'guest'}">	
+				<c:url value = "/joingroup?mgroupIndex=${mgroup.mgroup_index}" var ="joingroup"/>
+					<a href = "${joingroup}" style = "text-decoration-line: none"><b>가입하기</b></a>
+				</c:if>
 			</aside>
 
 
@@ -114,21 +115,33 @@ bside {
 				</c:forEach>
 			</section>
 
-
 			<bside>
-			<security:authorize access="isAuthenticated()">
-				<p>안녕하세요. <security:authentication property="principal.username"/>님. 반갑습니다.</p>
-			</security:authorize>	
+				<security:authorize access="isAuthenticated()">
+					<p>안녕하세요. <security:authentication property="principal.username"/>님. 반갑습니다.</p>
+				</security:authorize>
 				<ul>
-					<li>로그아웃</li>
-					<li>마이페이지</li>
-					<li>모임관리하기</li>
-					<li><c:url value = "/writing_post" var ="writingPost">
-							<c:param name="mgroupIndex" value="${mgroup[0].mgroup_index}" />
-						</c:url>
-						<a href = "${writingPost}" style = "text-decoration-line: none"> 글쓰기</a></li>
-					<li><a href = "${pageContext.request.contextPath}/ViewGroupMembers?mgroupIndex=${mgroup[0].mgroup_index}" style = "text-decoration-line: none">회원 관리하기</a></li>
-					
+					<li><a href="${pageContext.request.contextPath}/logout"> Logout</a></li>
+					<li><a href="${pageContext.request.contextPath}/Mypage"> My Page</a></li>
+					<c:if test="${theUsergroupRole eq 'admin'}">
+						<li><c:url value="/ViewGroupMemberSetting" var="managing">
+							<c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+						</c:url> 
+						<a href="${managing}" style="text-decoration-line: none">모임 및 회원 관리하기</a></li>
+						<li><c:url value="/writing_post" var="writingPost">
+							<c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+						</c:url> 
+						<a href="${writingPost}" style="text-decoration-line: none">글쓰기</a></li>
+					</c:if>
+					<c:if test="${theUsergroupRole eq 'normal'}">
+						<li><c:url value="/ViewGroupMemberSetting" var="managing">
+							<c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+						</c:url> 
+						<a href="${managing}" style="text-decoration-line: none">모임 관리하기</a></li>
+						<li><c:url value="/writing_post" var="writingPost">
+							<c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+						</c:url> 
+						<a href="${writingPost}" style="text-decoration-line: none">글쓰기</a></li>
+					</c:if>
 				</ul>
 			</bside>
 		</div>

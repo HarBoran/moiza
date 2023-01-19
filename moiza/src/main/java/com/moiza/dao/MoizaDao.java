@@ -15,13 +15,13 @@ public interface MoizaDao {
 
 	int UseridChangeUserindex(String userId);
 
-	List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole);
+	List<MgroupEntity> getSubscribedMgroup(int userIndex);
 	
 	List<MgroupEntity> bestGroup();
 	
 	public void saveUser(UserEntity user);
 
-	List<MgroupEntity> getConnectedGroupInfo(int groupIndex);
+	MgroupEntity getConnectedGroupInfo(int groupIndex);
 	
 	List<UsergroupEntity> getUserRole(int userIndex, int groupIndex);
 
@@ -33,15 +33,13 @@ public interface MoizaDao {
 
 	int findMgroupIndexBase(int getUsergroup_index);
 
-	void saveUser1(UserEntity user);
+	void saveAuthority(Authorities authorities);
 
-	public void saveAuthority(Authorities authorities);
-
-	public void saveGroup(MgroupEntity mgroup);
+	void saveGroup(MgroupEntity mgroup);
 
 	void makeTheLeader(UsergroupEntity usergroupEntity);
 	
-	List<UsergroupUserDto> GroupUserInfo(int mgroupIndex);
+	List<UsergroupUserDto> GroupUserInfo(int mgroupIndex, int userIndex);
 	
 	List<ImgEntity> getImg();
 

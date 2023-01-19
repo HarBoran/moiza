@@ -50,7 +50,7 @@
 			<div id = "img_div">
 				<c:forEach var="tempImg" items="${theImg}">
 					<div id = "img_div_child">
-					<a href="${pageContext.request.contextPath}/test?img_index=${tempImg.img_index}">
+					<a href="${pageContext.request.contextPath}/beforeGroupCreation?img_index=${tempImg.img_index}">
 						<img src="${tempImg.img_url}" class="rounded" alt="이미지를 선택하세요" width="200" height="200"/>			
 					</a>
 					</div>

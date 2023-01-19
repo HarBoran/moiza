@@ -30,8 +30,8 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole) {
-		return moizaDao.getSubscribedMgroup(userIndex, usergroupUserRole);
+	public List<MgroupEntity> getSubscribedMgroup(int userIndex) {
+		return moizaDao.getSubscribedMgroup(userIndex);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public List<MgroupEntity> getConnectedGroupInfo(int groupIndex) {
+	public MgroupEntity getConnectedGroupInfo(int groupIndex) {
 		return moizaDao.getConnectedGroupInfo(groupIndex);
 	}
 
@@ -87,13 +87,6 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public void saveUser1(UserEntity user) {
-		moizaDao.saveUser1(user);
-
-	}
-
-	@Override
-	@Transactional
 	public void saveAuthority(Authorities authorities) {
 		moizaDao.saveAuthority(authorities);
 
@@ -114,8 +107,8 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex) {
-		return moizaDao.GroupUserInfo(mgroupIndex);
+	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex, int userIndex) {
+		return moizaDao.GroupUserInfo(mgroupIndex, userIndex);
 	}
 
 	@Override
