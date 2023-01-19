@@ -73,15 +73,15 @@ body {
       </div>
    </div>
 
- 
-<c:forEach var ="searchedGroup" items = "${searchGroups}">
- <c:if test="${searchGroups==null}">
- <script>
-alert('검색하신 정보가 없습니다');
-</script>
+ <c:if test="${empty searchGroups}">
+   <c:out value ="검색결과가 없습니다요"/><br/>
+    <a href="${pageContext.request.contextPath}/"><span
+                        class="glyphicon glyphicon-user"></span>홈으로~</a>
  </c:if>
-         <div class="container">
-      <div class="row">
+ 
+   <div class="container">
+   <div class="row">
+<c:forEach var ="searchedGroup" items = "${searchGroups}">
          <div class="col-sm-4">
             <div class="panel panel-primary">
                <div class="panel-heading">${searchedGroup.mgroup_title}</div>
@@ -107,11 +107,10 @@ alert('검색하신 정보가 없습니다');
                 </security:authorize>
             </div>
          </div>
-      </div>
-      
-         
-   </div>
+
 </c:forEach>
+</div>  
+</div>
    <br>
 
    

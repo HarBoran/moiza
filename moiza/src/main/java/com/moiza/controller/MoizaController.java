@@ -39,23 +39,30 @@ public class MoizaController {
 			String userId = authentication.getName();
 			// 사용자가 user그룹에서 로그인한 index를 기준으로
 			int userIndex = moizaService.UseridChangeUserindex(userId);
-			// 유저인덱스를 기준으로 가입되어 있는 모임의 모든 정보를 가지고옴(admin)
-			List<MgroupEntity> theSubscribedMgroup = moizaService.getSubscribedMgroup(userIndex, "admin");
-			theModel.addAttribute("theSubscribedMgroup", theSubscribedMgroup);
 			
-			// 유저인덱스를 기준으로 가입되어 있는 모임의 모든 정보를 가지고옴(employee)
-			List<MgroupEntity> theWaitingMgroup = moizaService.getSubscribedMgroup(userIndex, "employee");
-			theModel.addAttribute("theWaitingMgroup", theWaitingMgroup);
-
+			// 유저인덱스를 기준으로 그룹장으로 되어있는 모든 정보를 가지고옴(admin, normal)
+            List<MgroupEntity> theMyMgroup = moizaService.getSubscribedMgroup(userIndex, "admin or normal");
+            theModel.addAttribute("theMyMgroup", theMyMgroup);
+		
+			// 유저인덱스를 기준으로 그룹장으로 되어있는 모든 정보를 가지고옴(admin)
+            List<MgroupEntity> theleaderMgroup = moizaService.getSubscribedMgroup(userIndex, "admin");
+            theModel.addAttribute("theleaderMgroup", theleaderMgroup);
+          
+            //유저인덱스를 기준으로 가입중인 모임의 모든 정보를 가지고옴(normal)
+            List<MgroupEntity> thejoinMgroup = moizaService.getSubscribedMgroup(userIndex, "normal");
+            theModel.addAttribute("thejoinMgroup", thejoinMgroup);
+           
+            // 유저인덱스를 기준으로 가입대기중인 모임의 모든 정보를 가지고옴(employee)
+            List<MgroupEntity> theWaitingMgroup = moizaService.getSubscribedMgroup(userIndex, "employee");
+            theModel.addAttribute("theWaitingMgroup", theWaitingMgroup);
+            
 		} catch (NullPointerException e) {
 			System.out.println(e);
 		}
 		
 		  List<MgroupEntity>bestGroup = moizaService.bestGroup();
 	      theModel.addAttribute("bestGroup",bestGroup);
-	      System.out.println(bestGroup);
-
-
+	 
 		return "main";
 	}
 
@@ -92,11 +99,19 @@ public class MoizaController {
 	//@GetMapping("/group_main_post/{mgroupIndex}")
 	@GetMapping("/group_main_post")
 	@PreAuthorize("isAuthenticated()")
-	public String group_main_post(@RequestParam("mgroupIndex") int groupIndex, Model theModel) {
+	public String group_main_post(Authentication authentication, @RequestParam("mgroupIndex") int groupIndex, Model theModel) {
 		List<MgroupEntity> theGroup = moizaService.getConnectedGroupInfo(groupIndex);
 		theModel.addAttribute("mgroup", theGroup);
+		
 		List<PostEntity> thePosts = moizaService.getConnectedGroupPosts(groupIndex);
 		theModel.addAttribute("post", thePosts);
+		
+		String userId = authentication.getName();
+		int userIndex = moizaService.UseridChangeUserindex(userId);
+		List<UsergroupEntity> theUsergroups = moizaService.getUserRole(userIndex, groupIndex);
+		String theUsergroupRole = theUsergroups.get(0).getUsergroup_user_role();
+		theModel.addAttribute("theUsergroupRole", theUsergroupRole);
+		
 		return "group_main_post";
 	}
 
@@ -219,7 +234,6 @@ public class MoizaController {
 	   
 	   @GetMapping("/modification")
 	   public String modification(@RequestParam("userId") String userId,Model themodel) {
-	      
 	      
 	      List<UserEntity> theUsers = moizaService.theUserInformation(userId);
 	      System.out.println(userId + "!!");

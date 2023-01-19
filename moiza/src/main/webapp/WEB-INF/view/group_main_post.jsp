@@ -70,6 +70,7 @@ bside {
 			<a href="${pageContext.request.contextPath}/leaders" style = "text-decoration: none;">Leadership Meeting</a>(Only for Managers)<br>
 			<input type = "button" value = "Leadership Meeting" class ="add-button" 
 	         onclick="window.location.href='leaders'; return false;"/>   
+	         ${theUsergroupRole}
 
 			<a href="${pageContext.request.contextPath}/">Back to Home Page</a>
 

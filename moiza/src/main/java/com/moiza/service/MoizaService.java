@@ -21,6 +21,8 @@ public interface MoizaService {
 	public void saveUser(UserEntity user);
 
 	List<MgroupEntity> getConnectedGroupInfo(int groupIndex);
+	
+	List<UsergroupEntity> getUserRole(int userIndex, int groupIndex);
 
 	List<PostEntity> getConnectedGroupPosts(int groupIndex);
 
@@ -51,6 +53,8 @@ public interface MoizaService {
 	List<LocalEntity> getLocal();
 
 	List<MgroupEntity> searchGroup(String searchGroup);
+
+	
 
 
 }

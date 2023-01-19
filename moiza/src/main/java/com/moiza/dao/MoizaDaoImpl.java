@@ -57,7 +57,17 @@ public class MoizaDaoImpl implements MoizaDao {
 		try {
 			conn = dataSource.getConnection();
 			String sql = null;
-			if(usergroupUserRole.equals("admin")){
+			if(usergroupUserRole.equals("admin or normal")){
+				sql = "SELECT * FROM mgroup join usergroup"
+						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+						+" WHERE usergroup_user_index = "+ userIndex
+						+" and usergroup_user_role = \"admin\" or \"normal\" limit 5";
+			}else if (usergroupUserRole.equals("admin")){
+				sql = "SELECT * FROM mgroup join usergroup"
+						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+						+" WHERE usergroup_user_index = "+ userIndex
+						+" and usergroup_user_role = \"" + usergroupUserRole + "\"";
+			}else if(usergroupUserRole.equals("normal")){
 				sql = "SELECT * FROM mgroup join usergroup"
 						+" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
 						+" WHERE usergroup_user_index = "+ userIndex
@@ -101,49 +111,52 @@ public class MoizaDaoImpl implements MoizaDao {
 		return theSubscribedMgroup;
 	}
 	
-	   @Override
-	   public List<MgroupEntity> bestGroup() {
-	      
-	      List<MgroupEntity> bestGroup = new ArrayList<MgroupEntity>();
-	      Connection conn = null;
-	      Statement mySt = null;
-	      ResultSet myRs = null;
+   @Override
+   public List<MgroupEntity> bestGroup() {
+      
+      List<MgroupEntity> bestGroup = new ArrayList<MgroupEntity>();
+      Connection conn = null;
+      Statement mySt = null;
+      ResultSet myRs = null;
 
-	      try {
-	         conn = dataSource.getConnection();
+      try {
+         conn = dataSource.getConnection();
 
-	         String sql = "SELECT * FROM usergroup  join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc limit 3";
-	               
-	         mySt = conn.createStatement();
-	         myRs = mySt.executeQuery(sql);
-	         while (myRs.next()) {
+         //String sql = "SELECT * FROM usergroup join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc limit 3";
+         String sql = "SELECT * FROM usergroup join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc";
 
-	            MgroupEntity group = new MgroupEntity();
-	            group.setMgroup_index(myRs.getInt("mgroup_index"));
-	            group.setMgroup_title(myRs.getString("mgroup_title"));
-	            group.setMgroup_img(myRs.getInt("mgroup_img"));
-	            group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
-	            group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
-	            group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
-	            group.setMgroup_local(myRs.getInt("mgroup_local"));
-	            group.setMgroup_minage(myRs.getInt("mgroup_minage"));
-	            group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
-	            group.setMgroup_gender(myRs.getString("mgroup_gender"));
-	            group.setMgroup_limit(myRs.getInt("mgroup_limit"));
-	            group.setMgroup_out(myRs.getInt("mgroup_out"));
+         mySt = conn.createStatement();
+         myRs = mySt.executeQuery(sql);
+         while (myRs.next()) {
 
-	            bestGroup.add(group);
-	         }
-	         myRs.close();
-	         mySt.close();
-	         conn.close();
+            MgroupEntity group = new MgroupEntity();
+            group.setMgroup_index(myRs.getInt("mgroup_index"));
+            group.setMgroup_title(myRs.getString("mgroup_title"));
+            group.setMgroup_img(myRs.getInt("mgroup_img"));
+            group.setMgroup_img_url(myRs.getString("mgroup_img_url"));
+            group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
+            group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
+            group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
+            group.setMgroup_local(myRs.getInt("mgroup_local"));
+            group.setMgroup_local_name(myRs.getString("mgroup_local_name"));
+            group.setMgroup_minage(myRs.getInt("mgroup_minage"));
+            group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
+            group.setMgroup_gender(myRs.getString("mgroup_gender"));
+            group.setMgroup_limit(myRs.getInt("mgroup_limit"));
+            group.setMgroup_out(myRs.getInt("mgroup_out"));
 
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      }
+            bestGroup.add(group);
+         }
+         myRs.close();
+         mySt.close();
+         conn.close();
 
-	      return bestGroup;
-	   }
+      } catch (SQLException e) {
+         e.printStackTrace();
+      }
+
+      return bestGroup;
+   }
 
 	@Override
 	public void saveUser(UserEntity user) {
@@ -160,6 +173,16 @@ public class MoizaDaoImpl implements MoizaDao {
 		theQuery.setParameter("groupIndex", groupIndex);
 		List<MgroupEntity> theGroup = theQuery.getResultList();
 		return theGroup;
+	}
+	
+	@Override
+	public List<UsergroupEntity> getUserRole(int userIndex, int groupIndex) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<UsergroupEntity> theQuery = currentSession.createQuery("from UsergroupEntity where usergroup_user_index =:usergroup_user_index and usergroup_group_index = :usergroup_group_index", UsergroupEntity.class);
+		theQuery.setParameter("usergroup_user_index", userIndex);
+		theQuery.setParameter("usergroup_group_index", groupIndex);
+		List<UsergroupEntity> theUserRole = theQuery.getResultList();
+		return theUserRole;
 	}
 
 	@Override
@@ -373,5 +396,7 @@ public class MoizaDaoImpl implements MoizaDao {
 		return searchGroups;
 
 	}
+
+
 
 }

@@ -11,6 +11,13 @@
 <meta charset="UTF-8">
 <title>Hello Moiza~</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet"
+   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script
@@ -56,11 +63,13 @@ body {
 
 #myGroup {
 	display: flex;
+	justify-content: flex-start;
 }
 
 #myGroupChild {
 	border: 2px solid #123a2a;
 	border-radius: 15px;
+	margin : 12px;
 	flex: 0 0 200px;
 }
 </style>
@@ -88,7 +97,7 @@ body {
 				<p>가입중인 모임</p>
 
 				<div id="myGroup">
-					<c:forEach var="myGroup" items="${theSubscribedMgroup}">
+					<c:forEach var="myGroup" items="${theMyMgroup}">
 						<div id="myGroupChild">
 						<c:url value="/group_main_post"
 								var="enterGroup">
@@ -109,36 +118,10 @@ body {
 						</div>
 					</c:forEach>
 				</div>
-				<%-- <p>가입 대기중인 모임</p>
-
-				<div id="myGroup">
-					<c:forEach var="myWaitingGroup" items="${theWaitingMgroup}">
-						<div id="myGroupChild">
-							<c:url value="/group_main_post/${myWaitingGroup.mgroup_title}"
-								var="enterWaitingGroup">
-								<c:param name="mgroupIndex"
-									value="${myWaitingGroup.mgroup_index}" />
-							</c:url>
-							<a href="${enterWaitingGroup}" style="text-decoration-line: none">
-								${myWaitingGroup.mgroup_title} ${myWaitingGroup.mgroup_img} <img
-								id="mgroupMainImg" src="${myWaitingGroup.mgroup_img_url}"
-								width="200" height="200" alt="${myWaitingGroup.mgroup_title}" />
-								${myWaitingGroup.mgroup_introduce}
-								${myWaitingGroup.mgroup_maincategory}
-								${myWaitingGroup.mgroup_maincategory}
-								${myWaitingGroup.mgroup_local}
-								${myWaitingGroup.mgroup_local_name}
-								${myWaitingGroup.mgroup_minage} ${myWaitingGroup.mgroup_maxage}
-								${myWaitingGroup.mgroup_gender} ${myWaitingGroup.mgroup_limit}
-								${myWaitingGroup.mgroup_out}
-							</a>
-						</div>
-					</c:forEach>
-				</div> --%>
 			</div>
 		</div>
-
 	</security:authorize>
+	
 	<br>
 	<br>
 
@@ -175,82 +158,49 @@ body {
 							class="glyphicon glyphicon-user"></span> Logout</a></li>
 				</security:authorize>
 
-				<li class="nav-item"><form:form action="search"
-						class="form-inline" method="GET">
-						<input type="text" class="form-control" size="35"
-							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
-						<input type="submit" value="Search" class="btn btn-danger">
-					</form:form></li>
+				<li class="nav-item"><form:form action="search" class="form-inline" method="GET">
+						<input type="text" class="form-control" size="32"
+							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup"></li>
+				<li class="nav-item"><input type="submit" value="Search"
+					class="btn btn-danger"> </form:form></li>
+
 			</ul>
 		</nav>
 	</div>
 	
 	<br>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-4">
-				♥추천 모임~♥
-				<div class="panel panel-danger">
-
-					<div class="panel-heading">
-
-						<c:url
-							value="/group_main_post?mgroupIndex=${bestGroup.get(0).mgroup_index}"
-							var="enterGroup" />
-						모임명 : ${bestGroup.get(0).mgroup_title}
-
-
-					</div>
-
-					<div class="panel-body">
-
-						<img src="${bestGroup.get(1).mgroup_img}" class="img-responsive"
-							style="width: 100%" alt="Image">
-					</div>
-					<div class="panel-footer">카테고리:
-						${bestGroup.get(0).mgroup_maincategory} ->
-						${bestGroup.get(0).mgroup_middlecategory}</div>
-				</div>
-			</div>
-				<div class="col-sm-4">
-					♥추천 모임~♥
-					<div class="panel panel-danger">
-						<div class="panel-heading">모임명 :
-							${bestGroup.get(1).mgroup_title}</div>
-						<div class="panel-body">
-							<img src="https://placehold.it/150x80?text=IMAGE"
-								class="img-responsive" style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">카테고리:${bestGroup.get(1).mgroup_maincategory}
-							-> ${bestGroup.get(1).mgroup_middlecategory}</div>
-					</div>
-				</div>
-				
-		 		
-				<div class="col-sm-4">
-					♥추천 모임~♥
-					<div class="panel panel-danger">
-						<div class="panel-heading">모임명:
-							${bestGroup.get(2).mgroup_title}</div>
-						<div class="panel-body">
-							<img src="https://placehold.it/150x80?text=IMAGE"
-								class="img-responsive" style="width: 100%" alt="Image">
-						</div>
-						<div class="panel-footer">카테고리:${bestGroup.get(2).mgroup_maincategory}
-							-> ${bestGroup.get(2).mgroup_middlecategory}</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-
 	<br>
-
+	
+	<div class="container">
+	<div class="row">
+		<c:forEach var="bestGroup" items="${bestGroup}" varStatus="status">
+				<div class="col-sm-4">
+				♥추천 모임~♥
+				<div class="panel panel-primary">
+					<div class="panel-heading">모임명 : ${bestGroup.mgroup_title}</div>
+					<c:url value="/group_main_post" var="enterBestMgroup">
+						<c:param name="mgroupIndex" value="${bestGroup.mgroup_index}" />
+					</c:url>
+					<a href="${enterBestMgroup}" style="text-decoration-line: none">
+						<div class="panel-body">
+							<img id="mgroupMainImg" class="img-responsive" src="${bestGroup.mgroup_img_url}" width="100%" alt="${bestGroup.mgroup_title}"/>
+						</div>
+					</a>
+					<div class="panel-footer">
+						카테고리: ${bestGroup.mgroup_maincategory} ->
+						${bestGroup.mgroup_middlecategory}
+					</div>
+				</div>
+				</div>	
+		</c:forEach>
+	</div>
+	</div>
+	
+	<br>
 	<br>
 
 	<div class="container-fluid text-center">
-		<p>Online Store Copyright</p>
+		<p>Moizat</p>
 	</div>
 
 </body>

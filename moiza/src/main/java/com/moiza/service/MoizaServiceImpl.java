@@ -52,6 +52,12 @@ public class MoizaServiceImpl implements MoizaService {
 	public List<MgroupEntity> getConnectedGroupInfo(int groupIndex) {
 		return moizaDao.getConnectedGroupInfo(groupIndex);
 	}
+	
+	@Override
+	@Transactional
+	public List<UsergroupEntity> getUserRole(int userIndex, int groupIndex) {
+		return moizaDao.getUserRole(userIndex, groupIndex);
+	}	
 
 	@Override
 	@Transactional
@@ -147,6 +153,6 @@ public class MoizaServiceImpl implements MoizaService {
 	@Transactional
 	public List<MgroupEntity> searchGroup(String searchGroup) {
 		return moizaDao.searchGroup(searchGroup);
-	}	
+	}
 
 }
