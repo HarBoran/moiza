@@ -63,15 +63,21 @@ bside {
 		<header>
 			Header
 			<p>
+			<security:authorize access="isAuthenticated()">
+					<security:authentication property="principal" var="user"/>
+					 User ${user} <br>
+					 User.name ${user.username} <br>
+					 User.password ${user.password} <br>
+					
 				User:<security:authentication property="principal.username" />
 				<br>
 				Role(s):<security:authentication property="principal.authorities" />
+			</security:authorize>
 			</p>			
 			<a href="${pageContext.request.contextPath}/leaders" style = "text-decoration: none;">Leadership Meeting</a>(Only for Managers)<br>
 			<input type = "button" value = "Leadership Meeting" class ="add-button" 
 	         onclick="window.location.href='leaders'; return false;"/>   
-	         ${theUsergroupRole}
-
+	   
 			<a href="${pageContext.request.contextPath}/">Back to Home Page</a>
 
 		</header>
@@ -110,13 +116,19 @@ bside {
 
 
 			<bside>
+			<security:authorize access="isAuthenticated()">
 				<p>안녕하세요. <security:authentication property="principal.username"/>님. 반갑습니다.</p>
+			</security:authorize>	
 				<ul>
 					<li>로그아웃</li>
 					<li>마이페이지</li>
 					<li>모임관리하기</li>
-					<li><c:url value = "/writing_post?mgroupIndex=${mgroup[0].mgroup_index}" var ="writingPost"/>
+					<li><c:url value = "/writing_post" var ="writingPost">
+							<c:param name="mgroupIndex" value="${mgroup[0].mgroup_index}" />
+						</c:url>
 						<a href = "${writingPost}" style = "text-decoration-line: none"> 글쓰기</a></li>
+					<li><a href = "${pageContext.request.contextPath}/ViewGroupMembers?mgroupIndex=${mgroup[0].mgroup_index}" style = "text-decoration-line: none">회원 관리하기</a></li>
+					
 				</ul>
 			</bside>
 		</div>

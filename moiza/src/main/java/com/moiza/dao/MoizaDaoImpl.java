@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -15,6 +16,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.moiza.dto.UsergroupUserDto;
 import com.moiza.entity.Authorities;
 import com.moiza.entity.ImgEntity;
 import com.moiza.entity.LocalEntity;
@@ -111,52 +113,67 @@ public class MoizaDaoImpl implements MoizaDao {
 		return theSubscribedMgroup;
 	}
 	
-   @Override
-   public List<MgroupEntity> bestGroup() {
-      
-      List<MgroupEntity> bestGroup = new ArrayList<MgroupEntity>();
-      Connection conn = null;
-      Statement mySt = null;
-      ResultSet myRs = null;
+    @Override
+    public List<MgroupEntity> bestGroup() {
+       
+       List<MgroupEntity> bestGroup = new ArrayList<MgroupEntity>();
+       Connection conn = null;
+       Statement mySt = null;
+       ResultSet myRs = null;
 
-      try {
-         conn = dataSource.getConnection();
+       try {
+          conn = dataSource.getConnection();
 
-         //String sql = "SELECT * FROM usergroup join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc limit 3";
-         String sql = "SELECT * FROM usergroup join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index join post on usergroup.usergroup_index = post_usergroup_index order by post_like desc";
+          String sql = "SELECT mgroup_title,"
+                + "any_value(mgroup_index) as mgroup_index,"                  
+                + "any_value(mgroup_img) as mgroup_img,"
+	                + "any_value(mgroup_img_url) as mgroup_img_url,"
+	                + "any_value(mgroup_introduce) as mgroup_introduce,"
+                + "any_value(mgroup_maincategory) as mgroup_maincategory,"
+                + "any_value(mgroup_middlecategory) as mgroup_middlecategory,"
+	                + "any_value(mgroup_local) as mgroup_local,"
+	                + "any_value(mgroup_local_name) as mgroup_local_name,"
+	                + "any_value(mgroup_minage) as mgroup_minage,"
+	                + "any_value(mgroup_maxage) as mgroup_maxage,"
+	                + "any_value(mgroup_gender) as mgroup_gender,"
+	                + "any_value(mgroup_limit) as mgroup_limit,"
+	                + "any_value(mgroup_out) as mgroup_out,"
+                + "any_value(post_like) as post_like FROM usergroup "
+                + "join mgroup ON mgroup.mgroup_index = usergroup.usergroup_group_index "
+                + "join post on usergroup.usergroup_index = post_usergroup_index group by mgroup_title order by post_like desc limit 3";
+            System.out.println(sql);    
+          mySt = conn.createStatement();
+          myRs = mySt.executeQuery(sql);
+          while (myRs.next()) {
 
-         mySt = conn.createStatement();
-         myRs = mySt.executeQuery(sql);
-         while (myRs.next()) {
+         MgroupEntity group = new MgroupEntity();
+		group.setMgroup_index(myRs.getInt("mgroup_index"));
+		group.setMgroup_title(myRs.getString("mgroup_title"));
+		group.setMgroup_img(myRs.getInt("mgroup_img"));
+			group.setMgroup_img_url(myRs.getString("mgroup_img_url"));
+			group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
+		group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
+		group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
+			group.setMgroup_local(myRs.getInt("mgroup_local"));
+			group.setMgroup_local_name(myRs.getString("mgroup_local_name"));
+			group.setMgroup_minage(myRs.getInt("mgroup_minage"));
+			group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
+			group.setMgroup_gender(myRs.getString("mgroup_gender"));
+			group.setMgroup_limit(myRs.getInt("mgroup_limit"));
+			group.setMgroup_out(myRs.getInt("mgroup_out"));
+  
+             bestGroup.add(group);
+          }
+          myRs.close();
+          mySt.close();
+          conn.close();
 
-            MgroupEntity group = new MgroupEntity();
-            group.setMgroup_index(myRs.getInt("mgroup_index"));
-            group.setMgroup_title(myRs.getString("mgroup_title"));
-            group.setMgroup_img(myRs.getInt("mgroup_img"));
-            group.setMgroup_img_url(myRs.getString("mgroup_img_url"));
-            group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
-            group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
-            group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
-            group.setMgroup_local(myRs.getInt("mgroup_local"));
-            group.setMgroup_local_name(myRs.getString("mgroup_local_name"));
-            group.setMgroup_minage(myRs.getInt("mgroup_minage"));
-            group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
-            group.setMgroup_gender(myRs.getString("mgroup_gender"));
-            group.setMgroup_limit(myRs.getInt("mgroup_limit"));
-            group.setMgroup_out(myRs.getInt("mgroup_out"));
+       } catch (SQLException e) {
+          e.printStackTrace();
+       }
 
-            bestGroup.add(group);
-         }
-         myRs.close();
-         mySt.close();
-         conn.close();
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-      return bestGroup;
-   }
+       return bestGroup;
+    }
 
 	@Override
 	public void saveUser(UserEntity user) {
@@ -298,6 +315,53 @@ public class MoizaDaoImpl implements MoizaDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.save(usergroupEntity);
 	}
+	
+	@Override
+	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex) {
+		List<UsergroupUserDto> GroupUsersInfo = new ArrayList<UsergroupUserDto>();
+		Connection conn = null;
+		Statement mySt = null;
+		ResultSet myRs = null;
+
+		try {
+			conn = dataSource.getConnection();
+			String sql = "SELECT * FROM usergroup JOIN users ON usergroup.usergroup_user_index = users.user_index WHERE usergroup_group_index = " + mgroupIndex;
+			
+			mySt = conn.createStatement();
+			myRs = mySt.executeQuery(sql);
+			while (myRs.next()) {
+
+				UsergroupUserDto GroupUserInfo = new UsergroupUserDto();
+				GroupUserInfo.setUsergroup_index(myRs.getInt("usergroup_index"));
+				GroupUserInfo.setUsergroup_user_index(myRs.getInt("usergroup_user_index"));
+				GroupUserInfo.setUsergroup_group_index(myRs.getInt("usergroup_group_index"));
+				GroupUserInfo.setUsergroup_user_role(myRs.getString("usergroup_user_role"));
+				GroupUserInfo.setUser_index(myRs.getInt("user_index"));
+				
+				GroupUserInfo.setUser_name(myRs.getString("user_name"));
+				GroupUserInfo.setUser_phone(myRs.getString("user_phone"));
+				GroupUserInfo.setUser_birth(myRs.getString("user_birth"));
+				GroupUserInfo.setUser_gender(myRs.getString("user_gender"));
+				GroupUserInfo.setUsername(myRs.getString("username"));
+				
+				GroupUserInfo.setPassword(myRs.getString("password"));
+				GroupUserInfo.setUser_joinday(myRs.getString("user_joinday"));
+				GroupUserInfo.setUser_out(myRs.getInt("user_out"));
+				GroupUserInfo.setEnabled(myRs.getInt("enabled"));
+				GroupUserInfo.setAuthority(myRs.getString("authority"));
+				
+				GroupUsersInfo.add(GroupUserInfo);
+			}
+			myRs.close();
+			mySt.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return GroupUsersInfo;
+	}
 
 	@Override
 	public List<ImgEntity> getImg() {
@@ -346,17 +410,17 @@ public class MoizaDaoImpl implements MoizaDao {
 	   }
 
 	   @Override
-	   public void DeleteUser(String userId) {
-	      Session currentSession = sessionFactory.getCurrentSession();
-	      
-	      String hql = "DELETE FROM UserEntity "  + 
-	                "WHERE username = :User_id";
-	      Query theQuery = currentSession.createQuery(hql);
-	      System.out.print(hql);
-	      theQuery.setParameter("User_id",userId);
-	      theQuery.executeUpdate();
-	      
-	   }
+	      public void DeleteUser(int user_index) {
+	         Session currentSession = sessionFactory.getCurrentSession();
+	         
+	         String hql = "DELETE FROM UserEntity "  + 
+	                   "WHERE user_index = :User_id";
+	         Query theQuery = currentSession.createQuery(hql);
+	         System.out.print(hql);
+	         theQuery.setParameter("User_id",user_index);
+	         theQuery.executeUpdate();
+	         
+	      }
 	   
 	   @Override
 	   public List<UserEntity> theUserInformation(String userId) {
@@ -396,7 +460,109 @@ public class MoizaDaoImpl implements MoizaDao {
 		return searchGroups;
 
 	}
+	
+	   @Override
+	   public List<MgroupEntity> getmygroup(int userIndex, String usergroupUserRole) {
+	      List<MgroupEntity> getmygroup = new ArrayList<MgroupEntity>();
+	      Connection conn = null;
+	      Statement mySt = null;
+	      ResultSet myRs = null;
 
+	      try {
+	         conn = dataSource.getConnection();
+	         String sql = null;
+	         if(usergroupUserRole.equals("admin")){
+	            sql = "SELECT * FROM mgroup join usergroup"
+	                  +" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+	                  +" WHERE usergroup_user_index = "+ userIndex
+	                  +" and usergroup_user_role = \"admin\"";
+	         }else if(usergroupUserRole.equals("employee")){
+	            sql = "SELECT * FROM mgroup join usergroup"
+	                  +" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+	                  +" WHERE usergroup_user_index = "+ userIndex
+	                  +" and usergroup_user_role = \"employee\" ";
+	         }else if(usergroupUserRole.equals("normal")){
+	            sql = "SELECT * FROM mgroup join usergroup"
+	                  +" ON mgroup.mgroup_index = usergroup.usergroup_group_index"
+	                  +" WHERE usergroup_user_index = "+ userIndex
+	                  +" and usergroup_user_role = \"normal\" ";
+	         }
+	         mySt = conn.createStatement();
+	         myRs = mySt.executeQuery(sql);
+	         while (myRs.next()) {
+
+	            MgroupEntity group = new MgroupEntity();
+	            group.setMgroup_index(myRs.getInt("mgroup_index"));
+	            group.setMgroup_title(myRs.getString("mgroup_title"));
+	            group.setMgroup_img(myRs.getInt("mgroup_img"));
+	            group.setMgroup_img_url(myRs.getString("mgroup_img_url"));
+	            group.setMgroup_introduce(myRs.getString("mgroup_introduce"));
+	            group.setMgroup_maincategory(myRs.getString("mgroup_maincategory"));
+	            group.setMgroup_middlecategory(myRs.getString("mgroup_middlecategory"));
+	            group.setMgroup_local(myRs.getInt("mgroup_local"));
+	            group.setMgroup_local_name(myRs.getString("mgroup_local_name"));
+	            group.setMgroup_minage(myRs.getInt("mgroup_minage"));
+	            group.setMgroup_maxage(myRs.getInt("mgroup_maxage"));
+	            group.setMgroup_gender(myRs.getString("mgroup_gender"));
+	            group.setMgroup_limit(myRs.getInt("mgroup_limit"));
+	            group.setMgroup_out(myRs.getInt("mgroup_out"));
+
+	            getmygroup.add(group);
+	         }
+	         myRs.close();
+	         mySt.close();
+	         conn.close();
+
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+
+	      return getmygroup;
+	   }
+	   
+	   @Override
+	   public List<MgroupEntity> randomGroup() {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	      Query<MgroupEntity> theQuery = currentSession.createQuery("FROM MgroupEntity", MgroupEntity.class);
+	      
+	      List<MgroupEntity> randomGroups = theQuery.getResultList();
+	       Collections.shuffle(randomGroups);
+	       
+	       List<MgroupEntity> ShuffleGroups = new ArrayList<MgroupEntity>();
+	       ShuffleGroups.add(randomGroups.get(0));
+	       ShuffleGroups.add(randomGroups.get(1));
+	       ShuffleGroups.add(randomGroups.get(2));
+	       ShuffleGroups.add(randomGroups.get(3));
+	       ShuffleGroups.add(randomGroups.get(4));
+	       ShuffleGroups.add(randomGroups.get(5));
+	       ShuffleGroups.add(randomGroups.get(6));
+	       ShuffleGroups.add(randomGroups.get(7));
+	       ShuffleGroups.add(randomGroups.get(8));
+
+	      
+	      return ShuffleGroups;
+	   }
+
+	@Override
+	public UsergroupEntity getUsergroupInfo(int usergroup_index) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		UsergroupEntity getUsergroupInfo = currentSession.get(UsergroupEntity.class, usergroup_index);
+		return getUsergroupInfo;
+	}
+
+	   
+	@Override
+	public void nonMemberRegistration(UsergroupEntity usergroupInfo) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.saveOrUpdate(usergroupInfo);
+		
+	}
+
+	@Override
+	public void exportGroup(UsergroupEntity usergroupInfo) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		currentSession.delete(usergroupInfo);
+	}
 
 
 }

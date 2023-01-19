@@ -61,12 +61,11 @@
       <a class="nav-link" href="${modification}">개인정보수정</a>
       <input type="hidden" name="userId" value="${userId}">
     </li>
+ 
     <li class="nav-item">
-     <c:url value="/withdraw" var="withdraw" >
-      <c:param name ="userId" value="${userId}"/>   
-     </c:url>   
-      <a class="nav-link" href="${withdraw}">회원탈퇴</a>
-    </li>
+    <a class="nav-link"
+   href="${pageContext.request.contextPath}/controlmygroup"> 내모임 관리하기
+   </a></li>
   </ul>
     
  <a class="nav-link" href="${pageContext.request.contextPath}/">홈으로 돌아가기</a>

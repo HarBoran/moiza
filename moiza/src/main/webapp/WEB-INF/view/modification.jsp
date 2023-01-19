@@ -63,7 +63,12 @@
  
     <button type="submit" class="btn btn-primary">Submit</button>
   </form:form>
-  
+ 
+     <c:url value="/withdraw" var="withdraw" >
+      <c:param name ="user_index" value="${users.get(0).user_index}"/>   
+     </c:url>   
+      <a class="nav-link" href="${withdraw}">회원탈퇴</a>
+ 
   <a class="nav-link" href="${pageContext.request.contextPath}/">홈으로</a>
 </div>
 

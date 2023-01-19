@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,6 +19,10 @@ public class UsergroupEntity {
 	private int usergroup_user_index;
 	private int usergroup_group_index;
 	private String usergroup_user_role;
+	
+//	@ManyToOne(targetEntity = UserEntity.class)
+//    @JoinColumn(name = "user_index")
+//    private UserEntity UserEntity;
 	
 	public UsergroupEntity() {}
 

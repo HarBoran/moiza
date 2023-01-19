@@ -11,13 +11,6 @@
 <meta charset="UTF-8">
 <title>Hello Moiza~</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link rel="stylesheet"
-   href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script
-   src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script
@@ -26,6 +19,13 @@
 	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
 .active {
@@ -36,24 +36,24 @@
 .navbar {
 	margin-bottom: 50px;
 	border-radius: 0;
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 	border-color: #ecf19e;
 }
 
 /* Remove the jumbotron's default bottom margin */
 .jumbotron {
 	margin-bottom: 0;
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 }
 
 /* Add a gray background color and some padding to the footer */
 footer {
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 	padding: 25px;
 }
 
 body {
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 }
 
 #loginSuccess {
@@ -63,13 +63,12 @@ body {
 
 #myGroup {
 	display: flex;
-	justify-content: flex-start;
 }
 
 #myGroupChild {
 	border: 2px solid #123a2a;
 	border-radius: 15px;
-	margin : 12px;
+	margin: 9px;
 	flex: 0 0 200px;
 }
 </style>
@@ -99,10 +98,9 @@ body {
 				<div id="myGroup">
 					<c:forEach var="myGroup" items="${theMyMgroup}">
 						<div id="myGroupChild">
-						<c:url value="/group_main_post"
-								var="enterGroup">
-							<%-- <c:url value="/group_main_post/${myGroup.mgroup_title}"
-								var="enterGroup"> --%>
+							<c:url value="/group_main_post" var="enterGroup">
+								<%-- <c:url value="/group_main_post/${myGroup.mgroup_title}"
+                        var="enterGroup"> --%>
 								<c:param name="mgroupIndex" value="${myGroup.mgroup_index}" />
 							</c:url>
 							<a href="${enterGroup}" style="text-decoration-line: none">
@@ -118,12 +116,44 @@ body {
 						</div>
 					</c:forEach>
 				</div>
+
+			</div>
+		</div>
+
+	</security:authorize>
+	<br>
+	<br>
+
+
+
+	<br>
+	<security:authorize access="isAnonymous()">
+		<div class="container">
+			<div class="row">
+				<c:forEach var="bestGroup" items="${bestGroup}" varStatus="status">
+					<div class="col-sm-4">
+						♥추천 모임~♥
+						<div class="panel panel-primary">
+							<div class="panel-heading">모임명 : ${bestGroup.mgroup_title}</div>
+							<c:url value="/group_main_post" var="enterBestMgroup">
+								<c:param name="mgroupIndex" value="${bestGroup.mgroup_index}" />
+							</c:url>
+							<a href="${enterBestMgroup}" style="text-decoration-line: none">
+								<div class="panel-body">
+									<img id="mgroupMainImg" class="img-responsive"
+										src="${bestGroup.mgroup_img_url}" width="100%"
+										alt="${bestGroup.mgroup_title}" />
+								</div>
+							</a>
+							<div class="panel-footer">카테고리:
+								${bestGroup.mgroup_maincategory} ->
+								${bestGroup.mgroup_middlecategory}</div>
+						</div>
+					</div>
+				</c:forEach>
 			</div>
 		</div>
 	</security:authorize>
-	
-	<br>
-	<br>
 
 	<div class="container">
 		<nav class="navbar navbar-expand-sm bg-warning navbar-dark">
@@ -152,55 +182,50 @@ body {
 						href="${pageContext.request.contextPath}/test"> <span
 							class="glyphicon glyphicon-user"></span> groupCreation
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">내모임 관리하기</a></li>
 					<li><a class="nav-link"
 						href="${pageContext.request.contextPath}/logout"><span
 							class="glyphicon glyphicon-user"></span> Logout</a></li>
 				</security:authorize>
 
-				<li class="nav-item"><form:form action="search" class="form-inline" method="GET">
-						<input type="text" class="form-control" size="32"
-							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup"></li>
-				<li class="nav-item"><input type="submit" value="Search"
-					class="btn btn-danger"> </form:form></li>
-
+				<li class="nav-item"><form:form action="search"
+						class="form-inline" method="GET">
+						<input type="text" class="form-control" size="35"
+							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
+						<input type="submit" value="Search" class="btn btn-danger">
+					</form:form></li>
 			</ul>
 		</nav>
 	</div>
-	
-	<br>
-	<br>
-	
-	<div class="container">
-	<div class="row">
-		<c:forEach var="bestGroup" items="${bestGroup}" varStatus="status">
-				<div class="col-sm-4">
-				♥추천 모임~♥
-				<div class="panel panel-primary">
-					<div class="panel-heading">모임명 : ${bestGroup.mgroup_title}</div>
-					<c:url value="/group_main_post" var="enterBestMgroup">
-						<c:param name="mgroupIndex" value="${bestGroup.mgroup_index}" />
-					</c:url>
-					<a href="${enterBestMgroup}" style="text-decoration-line: none">
-						<div class="panel-body">
-							<img id="mgroupMainImg" class="img-responsive" src="${bestGroup.mgroup_img_url}" width="100%" alt="${bestGroup.mgroup_title}"/>
-						</div>
-					</a>
-					<div class="panel-footer">
-						카테고리: ${bestGroup.mgroup_maincategory} ->
-						${bestGroup.mgroup_middlecategory}
-					</div>
-				</div>
-				</div>	
-		</c:forEach>
-	</div>
-	</div>
-	
-	<br>
-	<br>
 
-	<div class="container-fluid text-center">
-		<p>Moizat</p>
+
+
+	<div class="container">
+		<div class="row">
+			<c:forEach var="randomGroup" items="${randomGroup}">
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">모임명 : ${randomGroup.mgroup_title}</div>
+						<c:url
+							value="/group_main_post?mgroupIndex=${randomGroup.mgroup_index}"
+							var="enterGroup" />
+						<a href="${enterGroup}" style="text-decoration-line: none">
+							<div class="panel-heading">${randomGroup.mgroup_title}</div>
+							<div class="panel-body">
+
+								<img src="${randomGroup.mgroup_img_url}" class="img-responsive"
+									style="width: 100%" alt="Image">
+							</div>
+						</a>
+
+
+						<div class="panel-footer">${randomGroup.mgroup_maincategory}
+							/ ${randomGroup.mgroup_middlecategory}</div>
+
+					</div>
+
+				</div>
+			</c:forEach>
+		</div>
 	</div>
 
 </body>

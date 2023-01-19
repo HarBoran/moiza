@@ -1,5 +1,6 @@
 package com.moiza.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.moiza.entity.UsergroupEntity;
+import com.moiza.dto.UsergroupUserDto;
 import com.moiza.entity.Authorities;
 import com.moiza.entity.ImgEntity;
 import com.moiza.entity.LocalEntity;
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
-import com.moiza.entity.UsergroupEntity;
 import com.moiza.service.MoizaService;
 
 @Controller // MVC의 컨트롤러라는 것을 알려줌
@@ -31,7 +33,7 @@ public class MoizaController {
 
 	@Autowired
 	private MoizaService moizaService;
-
+	
 	@GetMapping("/")
 	public String showHome(Authentication authentication, Model theModel) {
 		try {
@@ -39,30 +41,22 @@ public class MoizaController {
 			String userId = authentication.getName();
 			// 사용자가 user그룹에서 로그인한 index를 기준으로
 			int userIndex = moizaService.UseridChangeUserindex(userId);
-			
+
 			// 유저인덱스를 기준으로 그룹장으로 되어있는 모든 정보를 가지고옴(admin, normal)
-            List<MgroupEntity> theMyMgroup = moizaService.getSubscribedMgroup(userIndex, "admin or normal");
-            theModel.addAttribute("theMyMgroup", theMyMgroup);
-		
-			// 유저인덱스를 기준으로 그룹장으로 되어있는 모든 정보를 가지고옴(admin)
-            List<MgroupEntity> theleaderMgroup = moizaService.getSubscribedMgroup(userIndex, "admin");
-            theModel.addAttribute("theleaderMgroup", theleaderMgroup);
-          
-            //유저인덱스를 기준으로 가입중인 모임의 모든 정보를 가지고옴(normal)
-            List<MgroupEntity> thejoinMgroup = moizaService.getSubscribedMgroup(userIndex, "normal");
-            theModel.addAttribute("thejoinMgroup", thejoinMgroup);
-           
-            // 유저인덱스를 기준으로 가입대기중인 모임의 모든 정보를 가지고옴(employee)
-            List<MgroupEntity> theWaitingMgroup = moizaService.getSubscribedMgroup(userIndex, "employee");
-            theModel.addAttribute("theWaitingMgroup", theWaitingMgroup);
-            
+			List<MgroupEntity> theMyMgroup = moizaService.getSubscribedMgroup(userIndex, "admin or normal");
+			theModel.addAttribute("theMyMgroup", theMyMgroup);
+
 		} catch (NullPointerException e) {
 			System.out.println(e);
 		}
-		
-		  List<MgroupEntity>bestGroup = moizaService.bestGroup();
-	      theModel.addAttribute("bestGroup",bestGroup);
-	 
+
+		List<MgroupEntity> bestGroup = moizaService.bestGroup();
+		theModel.addAttribute("bestGroup", bestGroup);
+	System.out.println(bestGroup);
+
+		List<MgroupEntity> randomGroup = moizaService.randomGroup();
+		theModel.addAttribute("randomGroup", randomGroup);
+	
 		return "main";
 	}
 
@@ -105,20 +99,36 @@ public class MoizaController {
 		
 		List<PostEntity> thePosts = moizaService.getConnectedGroupPosts(groupIndex);
 		theModel.addAttribute("post", thePosts);
+		try {
+			//모임 회원등급을 기준으로
+			String userId = authentication.getName();
+			int userIndex = moizaService.UseridChangeUserindex(userId);
+			List<UsergroupEntity> theUsergroups = moizaService.getUserRole(userIndex, groupIndex);
+			String theUsergroupRole = theUsergroups.get(0).getUsergroup_user_role();
+			//admin/normal/employee으로 분류함
+			theModel.addAttribute("theUsergroupRole", theUsergroupRole);
+			//모임에 가입되어 있지 않다면 guest로
+			if(theUsergroupRole == null || theUsergroupRole.equals("") || theUsergroupRole.length() == 0 || theUsergroupRole.isEmpty()) {
+				theModel.addAttribute("theUsergroupRole", "guest");	
+			}
+		} catch (NullPointerException e) {
+			//비회원일떄는 로그인,회원가입 유도
+			System.out.println(e);
+			return "redirect:/showMyLoginPage";
+		}
 		
-		String userId = authentication.getName();
-		int userIndex = moizaService.UseridChangeUserindex(userId);
-		List<UsergroupEntity> theUsergroups = moizaService.getUserRole(userIndex, groupIndex);
-		String theUsergroupRole = theUsergroups.get(0).getUsergroup_user_role();
-		theModel.addAttribute("theUsergroupRole", theUsergroupRole);
+		//모임장은 가입수락하기, 글쓰기 가능
+			//가입 수락하기 위해선 모임에 가입된 회원을 등급 별로 가져와야하고, 회원 등급을 바꾸는 기능이 필요함.
+		//회원은 글쓰기만 가능
+		//가입 대기중인 회원은 가입 신청이 불가능
+		//로그인만한 회원은 가입 신청이 가능			
 		
 		return "group_main_post";
 	}
 
 	@GetMapping("/writing_post")
 	@PreAuthorize("isAuthenticated()")
-	public String writing_post(@RequestParam("mgroupIndex") int mgroupIndex, Authentication authentication,
-			Model theModel) {
+	public String writing_post(@RequestParam("mgroupIndex") int mgroupIndex, Authentication authentication, Model theModel) {
 		// 스프링 시큐리티 로그인 아이디를 가져오는 다른 방법
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		String userId = userDetails.getUsername();
@@ -144,6 +154,15 @@ public class MoizaController {
 		int mgroupIndex = moizaService.findMgroupIndexBase(getUsergroup_index);
 		theModel.addAttribute("mgroupIndex", mgroupIndex);
 		return "redirect:/group_main_post";
+	}
+	
+	@GetMapping("/ViewGroupMembers")
+	@PreAuthorize("isAuthenticated()")
+	public String ViewGroupMembers(@RequestParam("mgroupIndex") int mgroupIndex, Authentication authentication, Model theModel) {
+		//내가 모임장 일때만 보여지는 버튼으로 내그룹에 가입된 유저의 정보를 정보 가져올수 있음 
+		List<UsergroupUserDto> GroupUserInfo = moizaService.GroupUserInfo(mgroupIndex);
+		theModel.addAttribute("GroupUserInfo", GroupUserInfo);
+		return "viewGroupMembers";
 	}
 
 	@GetMapping("/test")
@@ -253,12 +272,12 @@ public class MoizaController {
 	   }
 	   
 	   @GetMapping("/withdraw")
-	   public String withdraw(@RequestParam("userId") String userId, Model themodel) {
-	      
-	      themodel.addAttribute("userId", userId);
-	      moizaService.DeleteUser(userId);
-	      return "withdraw";
-	   }
+	      public String withdraw(@RequestParam("user_index") int user_index, Model themodel) {
+	         
+	         themodel.addAttribute("user_index", user_index);
+	         moizaService.DeleteUser(user_index);
+	         return "withdraw";
+	      }
 	   
 	   @GetMapping("/search")
 	   public String search(@RequestParam("searchGroup") String searchGroup, Model themodel) {
@@ -270,5 +289,69 @@ public class MoizaController {
 	      return "searchPage";
 	   }
 	   
+	@GetMapping("/controlmygroup")
+	public String controlmygroup(Authentication authentication, Model theModel) {
+		try {
+			// 스프링 시큐리티 로그인 아이디를 가져와서,
+			String userId = authentication.getName();
+			// 사용자가 user그룹에서 로그인한 index를 기준으로
+			int userIndex = moizaService.UseridChangeUserindex(userId);
+			// 유저인덱스를 기준으로 그룹장으로 되어있는 모든 정보를 가지고옴(admin)
+			List<MgroupEntity> theleaderMgroup = moizaService.getmygroup(userIndex, "admin");
+			theModel.addAttribute("theleaderMgroup", theleaderMgroup);
+
+			// 유저인덱스를 기준으로 가입대기중인 모임의 모든 정보를 가지고옴(employee)
+			List<MgroupEntity> theWaitingMgroup = moizaService.getmygroup(userIndex, "employee");
+			theModel.addAttribute("theWaitingMgroup", theWaitingMgroup);
+
+			// 유저인덱스를 기준으로 가입중인 모임의 모든 정보를 가지고옴(normal)
+			List<MgroupEntity> thejoinMgroup = moizaService.getmygroup(userIndex, "normal");
+			theModel.addAttribute("thejoinMgroup", thejoinMgroup);
+
+		} catch (NullPointerException e) {
+			System.out.println(e);
+		}
+		return "controlmygroup";
+	}
+	
+	@GetMapping("/ApprovNonMembers")
+	@PreAuthorize("isAuthenticated()")
+	public String ApprovNonMembers(@RequestParam("usergroup_index")int usergroup_index, Model theModel) {
+		UsergroupEntity UsergroupInfo = moizaService.getUsergroupInfo(usergroup_index);
+		UsergroupInfo.setUsergroup_user_role("normal");
+		moizaService.nonMemberRegistration(UsergroupInfo);
+		theModel.addAttribute("mgroupIndex", UsergroupInfo.getUsergroup_group_index());
+		//List<UsergroupUserDto> GroupUserInfo = moizaService.GroupUserInfo(UsergroupInfo.getUsergroup_group_index());
+		//theModel.addAttribute("GroupUserInfo", GroupUserInfo);
+		return "redirect:/ViewGroupMembers";
+	}
+	
+	@GetMapping("/RejectNonMembers")
+	@PreAuthorize("isAuthenticated()")
+	public String RejectNonMembers(@RequestParam("usergroup_index")int usergroup_index, Model theModel) {
+		//모임 가입 거절하기
+		UsergroupEntity UsergroupInfo = moizaService.getUsergroupInfo(usergroup_index);
+		//usergroup_user_role을 수정함.
+		//UsergroupInfo.setUsergroup_user_role("denial");
+		//moizaService.nonMemberRegistration(UsergroupInfo);
+		//usergroup_user_role을 삭제함.
+		moizaService.exportGroup(UsergroupInfo);
+		theModel.addAttribute("mgroupIndex", UsergroupInfo.getUsergroup_group_index());
+		//List<UsergroupUserDto> GroupUserInfo = moizaService.GroupUserInfo(UsergroupInfo.getUsergroup_group_index());
+		//theModel.addAttribute("GroupUserInfo", GroupUserInfo);
+		return "redirect:/ViewGroupMembers";
+	}
+	
+	@GetMapping("/kickout")
+	@PreAuthorize("isAuthenticated()")
+	public String kickout(@RequestParam("usergroup_index")int usergroup_index, Model theModel) {
+		UsergroupEntity UsergroupInfo = moizaService.getUsergroupInfo(usergroup_index);
+		moizaService.exportGroup(UsergroupInfo);
+		//내가 모임장 일때만 보여지는 버튼으로 내그룹에 가입된 유저의 정보를 정보 가져올수 있음 
+		theModel.addAttribute("mgroupIndex", UsergroupInfo.getUsergroup_group_index());
+		//List<UsergroupUserDto> GroupUserInfo = moizaService.GroupUserInfo(UsergroupInfo.getUsergroup_group_index());
+		//theModel.addAttribute("GroupUserInfo", GroupUserInfo);
+		return "redirect:/ViewGroupMembers";
+	}
 
 }

@@ -12,8 +12,9 @@ import com.moiza.entity.LocalEntity;
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
-import com.moiza.entity.UsergroupEntity;
 import com.moiza.dao.MoizaDao;
+import com.moiza.dto.UsergroupUserDto;
+import com.moiza.entity.UsergroupEntity;
 
 @Service
 public class MoizaServiceImpl implements MoizaService {
@@ -32,7 +33,7 @@ public class MoizaServiceImpl implements MoizaService {
 	public List<MgroupEntity> getSubscribedMgroup(int userIndex, String usergroupUserRole) {
 		return moizaDao.getSubscribedMgroup(userIndex, usergroupUserRole);
 	}
-	
+
 	@Override
 	@Transactional
 	public List<MgroupEntity> bestGroup() {
@@ -52,12 +53,12 @@ public class MoizaServiceImpl implements MoizaService {
 	public List<MgroupEntity> getConnectedGroupInfo(int groupIndex) {
 		return moizaDao.getConnectedGroupInfo(groupIndex);
 	}
-	
+
 	@Override
 	@Transactional
 	public List<UsergroupEntity> getUserRole(int userIndex, int groupIndex) {
 		return moizaDao.getUserRole(userIndex, groupIndex);
-	}	
+	}
 
 	@Override
 	@Transactional
@@ -108,7 +109,13 @@ public class MoizaServiceImpl implements MoizaService {
 	@Transactional
 	public void makeTheLeader(UsergroupEntity usergroupEntity) {
 		moizaDao.makeTheLeader(usergroupEntity);
-		
+
+	}
+
+	@Override
+	@Transactional
+	public List<UsergroupUserDto> GroupUserInfo(int mgroupIndex) {
+		return moizaDao.GroupUserInfo(mgroupIndex);
 	}
 
 	@Override
@@ -120,8 +127,8 @@ public class MoizaServiceImpl implements MoizaService {
 	@Override
 	@Transactional
 	public void savejoingroup(int userIndex, int mgroupIndex) {
-		moizaDao.savejoingroup(userIndex, mgroupIndex);	
-		
+		moizaDao.savejoingroup(userIndex, mgroupIndex);
+
 	}
 
 	@Override
@@ -134,13 +141,13 @@ public class MoizaServiceImpl implements MoizaService {
 	@Transactional
 	public void updateUserInfo(int user_index, String user_phone, String password) {
 		moizaDao.updateUserInfo(user_index, user_phone, password);
-		
+
 	}
 
 	@Override
 	@Transactional
-	public void DeleteUser(String userId) {
-		moizaDao.DeleteUser(userId);
+	public void DeleteUser(int user_index) {
+		moizaDao.DeleteUser(user_index);
 	}
 
 	@Override
@@ -154,5 +161,38 @@ public class MoizaServiceImpl implements MoizaService {
 	public List<MgroupEntity> searchGroup(String searchGroup) {
 		return moizaDao.searchGroup(searchGroup);
 	}
+
+	@Override
+	@Transactional
+	public List<MgroupEntity> getmygroup(int userIndex, String string) {
+		return moizaDao.getmygroup(userIndex, string);
+	}
+
+	@Override
+	@Transactional
+	public List<MgroupEntity> randomGroup() {
+		return moizaDao.randomGroup();
+	}
+	
+	@Override
+	@Transactional
+	public UsergroupEntity getUsergroupInfo(int usergroup_index) {
+		return moizaDao.getUsergroupInfo(usergroup_index);
+	}
+
+
+	@Override
+	@Transactional
+	public void nonMemberRegistration(UsergroupEntity usergroupInfo) {
+		moizaDao.nonMemberRegistration(usergroupInfo);
+	}
+
+	@Override
+	@Transactional
+	public void exportGroup(UsergroupEntity usergroupInfo) {
+		moizaDao.exportGroup(usergroupInfo);
+	}
+
+	
 
 }
