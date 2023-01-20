@@ -64,9 +64,11 @@ public interface MoizaDao {
 	void nonMemberRegistration(UsergroupEntity usergroupInfo);
 
 	void exportGroup(UsergroupEntity usergroupInfo);
-
 	
+	void DeleteGroup(int mgroupIndex);
 
+	void DeleteGroupsAtUserGroup(int mgroupIndex);
 	
+	int countMember(int groupIndex);
 
 }

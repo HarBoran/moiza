@@ -15,14 +15,14 @@
 </head>
 <style>
     footer {
-      background-color:#ecf19e;
+      background-color:#f0f2f5;
       padding: 25px;
     }
     body{
-      background-color: #ecf19e;
+      background-color: #f0f2f5;
     }
     .jumbotron{
-      background-color: #ecf19e;
+      background-color: #f0f2f5;
     }
     #a{
        font-size :50px;
@@ -39,12 +39,14 @@
 <body>
 
 
-   <div class="jumbotron">
-      <div class="container text-center">
-         <img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-
-         <h1>Moiza</h1>
-         <p>Mission, Vission & Values</p>
+   <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
       </div>
    </div>
 
@@ -68,7 +70,6 @@
    </a></li>
   </ul>
     
- <a class="nav-link" href="${pageContext.request.contextPath}/">홈으로 돌아가기</a>
 </div>
 
 </body>

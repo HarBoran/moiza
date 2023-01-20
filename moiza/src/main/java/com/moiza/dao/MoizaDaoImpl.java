@@ -229,8 +229,7 @@ public class MoizaDaoImpl implements MoizaDao {
 	public List<UsergroupEntity> getUserGroup(int userIndex, int mgroupIndex) {
 		Session currentSession = sessionFactory.getCurrentSession();
 		Query<UsergroupEntity> theQuery = currentSession.createQuery(
-				"from UsergroupEntity WHERE usergroup_user_index = :userIndex and usergroup_group_index = :mgroupIndex",
-				UsergroupEntity.class);
+				"from UsergroupEntity WHERE usergroup_user_index = :userIndex and usergroup_group_index = :mgroupIndex", UsergroupEntity.class);
 		theQuery.setParameter("userIndex", userIndex);
 		theQuery.setParameter("mgroupIndex", mgroupIndex);
 		List<UsergroupEntity> theUsergroupEntity = theQuery.getResultList();
@@ -496,18 +495,23 @@ public class MoizaDaoImpl implements MoizaDao {
 	      Query<MgroupEntity> theQuery = currentSession.createQuery("FROM MgroupEntity", MgroupEntity.class);
 	      
 	      List<MgroupEntity> randomGroups = theQuery.getResultList();
-	       Collections.shuffle(randomGroups);
-	       
+	      Collections.shuffle(randomGroups);
+	      int sublistSize = 9;
+	      
+	       if (randomGroups.size() < sublistSize) {
+	    	   sublistSize = randomGroups.size();
+	       }
 	       List<MgroupEntity> ShuffleGroups = new ArrayList<MgroupEntity>();
-	       ShuffleGroups.add(randomGroups.get(0));
-	       ShuffleGroups.add(randomGroups.get(1));
-	       ShuffleGroups.add(randomGroups.get(2));
-	       ShuffleGroups.add(randomGroups.get(3));
-	       ShuffleGroups.add(randomGroups.get(4));
-	       ShuffleGroups.add(randomGroups.get(5));
-	       ShuffleGroups.add(randomGroups.get(6));
-	       ShuffleGroups.add(randomGroups.get(7));
-	       ShuffleGroups.add(randomGroups.get(8));
+	       ShuffleGroups = randomGroups.subList(0, sublistSize);
+//	       ShuffleGroups.add(randomGroups.get(0));
+//	       ShuffleGroups.add(randomGroups.get(1));
+//	       ShuffleGroups.add(randomGroups.get(2));
+//	       ShuffleGroups.add(randomGroups.get(3));
+//	       ShuffleGroups.add(randomGroups.get(4));
+//	       ShuffleGroups.add(randomGroups.get(5));
+//	       ShuffleGroups.add(randomGroups.get(6));
+//	       ShuffleGroups.add(randomGroups.get(7));
+//	       ShuffleGroups.add(randomGroups.get(8));
 
 	      
 	      return ShuffleGroups;
@@ -533,6 +537,58 @@ public class MoizaDaoImpl implements MoizaDao {
 		Session currentSession = sessionFactory.getCurrentSession();
 		currentSession.delete(usergroupInfo);
 	}
+	
+	   @Override
+	   public void DeleteGroupsAtUserGroup(int mgroupIndex) {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	       String hql = "DELETE FROM UsergroupEntity "  + 
+	                "WHERE usergroup_group_index = :mgroupIndex";
+	      Query theQuery = currentSession.createQuery(hql);
+	      theQuery.setParameter("mgroupIndex",mgroupIndex);
+	      theQuery.executeUpdate();
+	      
+	   }
+	   
+	   @Override
+	   public void DeleteGroup(int mgroupIndex) {
+	      Session currentSession = sessionFactory.getCurrentSession();
+	       String hql = "DELETE FROM MgroupEntity "  + 
+	                "WHERE mgroup_index = :mgroupIndex";
+	      Query theQuery = currentSession.createQuery(hql);
+	      theQuery.setParameter("mgroupIndex",mgroupIndex);
+	      theQuery.executeUpdate();
+	      
+	   }
 
+	   @Override
+	   public int countMember(int groupIndex) {
+	      int count = 0;
+	      String sql = null;
+	      Connection conn = null;
+	      Statement mySt = null;
+	      ResultSet myRs = null;
+	      System.out.println("test try");
+	      try {
+	         System.out.println("test try");
+	         conn = dataSource.getConnection();
+	         mySt = conn.createStatement();
+	         sql = "SELECT count(*) as number FROM moiza.usergroup where usergroup_group_index = "+groupIndex;         
+	         myRs = mySt.executeQuery(sql);
+	            while (myRs.next()) {
+	               count = myRs.getInt("number");
+	           
+	               }                  
+	         myRs.close();
+	         mySt.close();
+	         conn.close();
+
+	      } 
+	      catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+	      return count;
+	   }
+	   
+	 
 
 }

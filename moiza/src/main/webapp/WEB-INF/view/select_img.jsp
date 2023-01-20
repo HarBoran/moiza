@@ -38,14 +38,16 @@
 </head>
 <body>
 	<main>
-		<div class="container">
-			<div class="colm-logo">
-				<div class="jumbotron">
-					<div class="container text-center">
-						<a href="${pageContext.request.contextPath}/"><h1>Moiza</h1></a>
-					</div>
-				</div>
-			</div>
+		 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 			${mgroup.mgroup_title}<br>
 			<div id = "img_div">
 				<c:forEach var="tempImg" items="${theImg}">

@@ -76,15 +76,16 @@ body {
 <body>
 
 
-	<div class="container">
-		<div class="jumbotron">
-			<div class="container text-center">
+	 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-				<h1>Moiza</h1>
-				<p>Mission, Vission & Values</p>
-			</div>
-		</div>
-	</div>
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 
 	<security:authorize access="isAuthenticated()">
 		<div class="container">
@@ -156,7 +157,7 @@ body {
 	</security:authorize>
 
 	<div class="container">
-		<nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
 			<ul class="nav justify-content-center">
 				<security:authorize access="isAnonymous()">
 					<li class="nav-item"><a class="nav-link"
@@ -182,12 +183,26 @@ body {
 						href="${pageContext.request.contextPath}/logout"><span
 							class="glyphicon glyphicon-user"></span> Logout</a></li>
 				</security:authorize>
-
+                
 				<li class="nav-item"><form:form action="search"
 						class="form-inline" method="GET">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						<security:authorize access="isAnonymous()">
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						
+						</security:authorize>
 						<input type="text" class="form-control" size="35"
 							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
-						<input type="submit" value="Search" class="btn btn-danger">
+						&nbsp;<input type="submit" value="Search" class="btn btn-info"> 
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
 					</form:form></li>
 			</ul>
 		</nav>

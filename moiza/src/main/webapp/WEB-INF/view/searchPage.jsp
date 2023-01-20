@@ -26,24 +26,24 @@
 .navbar {
    margin-bottom: 50px;
    border-radius: 0;
-   background-color: #ecf19e;
-   border-color: #ecf19e;
+   background-color: #f0f2f5;
+   border-color: #f0f2f5;
 }
 
 /* Remove the jumbotron's default bottom margin */
 .jumbotron {
    margin-bottom: 0;
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
 }
 
 /* Add a gray background color and some padding to the footer */
 footer {
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
    padding: 25px;
 }
 
 body {
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
 }
 
 #loginSuccess {
@@ -64,20 +64,31 @@ body {
 </head>
 <body>
 
-   <div class="jumbotron">
-      <div class="container text-center">
-         <img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-            
-         <h1>Moiza</h1>
-         <p>Mission, Vission & Values</p>
+   <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
       </div>
    </div>
-
+<div style="text-align:center;">
  <c:if test="${empty searchGroups}">
-   <c:out value ="검색결과가 없습니다요"/><br/>
-    <a href="${pageContext.request.contextPath}/"><span
-                        class="glyphicon glyphicon-user"></span>홈으로~</a>
+   <c:out value ="검색결과가 없습니다요"/><br/><hr>
+   
+  						  <form:form action="search"
+						class="form-inline" method="GET">					
+						<input type="text" class="form-control" size="35"
+							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
+						&nbsp;<input type="submit" value="Search" class="btn btn-info"> &nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
+					</form:form>
+					<br><br>
+					<a href ="${pageContext.request.contextPath}/main">홈으로~</a>
  </c:if>
+ </div>
  
    <div class="container">
    <div class="row">

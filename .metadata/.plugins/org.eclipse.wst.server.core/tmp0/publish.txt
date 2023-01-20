@@ -1,5 +1,5 @@
 #Tomcat publish data
-#Fri Jan 20 02:08:45 KST 2023
+#Fri Jan 20 14:04:17 KST 2023
 org.eclipse.jst.jee.server\:/binary\:/Users/my/.m2/repository/org/springframework/spring-web/5.0.2.RELEASE/spring-web-5.0.2.RELEASE.jar=WEB-INF/lib/spring-web-5.0.2.RELEASE.jar
 org.eclipse.jst.jee.server\:/binary\:/Users/my/artBBS/artBBSProject/WebContent/WEB-INF/lib/spring-web-5.3.8.jar=WEB-INF/lib/spring-web-5.3.8.jar
 org.eclipse.jst.jee.server\:/binary\:/Users/my/eclip/web-customer-tracker/WebContent/WEB-INF/lib/spring-web-5.3.8-sources.jar=WEB-INF/lib/spring-web-5.3.8-sources.jar

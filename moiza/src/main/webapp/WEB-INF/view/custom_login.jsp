@@ -17,16 +17,16 @@
 	<main>
 
 
-		<div class="jumbotron">
-			<div class="container text-center">
+		 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-
-				<h1>
-					<b>Moiza</b>
-				</h1>
-				<p>Mission, Vission & Values</p>
-			</div>
-		</div>
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 		<div class="row">
 
 			<div class="colm-form">

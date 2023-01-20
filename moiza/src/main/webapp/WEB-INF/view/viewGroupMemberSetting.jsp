@@ -15,15 +15,16 @@
 </head>
 
 <body>
-	<div class="container">
-	<div class="jumbotron">
-		<div class="container text-center">
-			<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-			<h1>Moiza</h1>
-			<p>Mission, Vission & Values</p>
-		</div>
-	</div>
-	</div>
+	 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 	
 	<c:if test="${theUsergroupRole eq 'admin'}">
 	<div class = "container">
@@ -40,6 +41,7 @@
 			<th>가입일</th>
 			<th>가입 승인하기</th>
 			<th>가입 거부 & 추방</th>
+			<th>모임장 위임하기</th>
 		</tr>
 	<c:forEach var="viewGroupUserInfo" items="${GroupUserInfo}">
 
@@ -72,6 +74,13 @@
 				</c:url>
 				<a href="${exile}" style="text-decoration-line: none">추방하기</a>
 			</c:if></td>
+					<td><c:if test="${viewGroupUserInfo.usergroup_user_role eq 'normal'}">
+			<c:url value="/HandOverSeats" var="Mandate">			
+				<c:param name="usergroup_index" value="${viewGroupUserInfo.usergroup_index}"/>
+				<c:param name="mgroupIndex" value="${viewGroupUserInfo.usergroup_group_index}"/>
+			</c:url>
+			<a href="${Mandate}" style="text-decoration-line: none">모임장 위임하기</a>
+		</c:if></td>
 		</tr>
 	</c:forEach>
 	</table>

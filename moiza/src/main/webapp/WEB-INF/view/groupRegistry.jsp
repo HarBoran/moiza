@@ -33,24 +33,24 @@
 .navbar {
 	margin-bottom: 50px;
 	border-radius: 0;
-	background-color: #ecf19e;
-	border-color: #ecf19e;
+	background-color: #f0f2f5;
+	border-color: #f0f2f5;
 }
 
 /* Remove the jumbotron's default bottom margin */
 .jumbotron {
 	margin-bottom: 0;
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 }
 
 /* Add a gray background color and some padding to the footer */
 footer {
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 	padding: 25px;
 }
 
 body {
-	background-color: #ecf19e;
+	background-color: #f0f2f5;
 }
 </style>
 <script>
@@ -90,13 +90,16 @@ body {
 	});
 </script>
 <body>
-	<div class="jumbotron">
-		<div class="container text-center">
-			<a href="${pageContext.request.contextPath}/">
-			<h1>Moiza</h1></a>
-			<p>Mission, Vission & Values</p>
-		</div>
-	</div>
+	 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 
 	<div class="container">
 		<h2>환영합니다~</h2>

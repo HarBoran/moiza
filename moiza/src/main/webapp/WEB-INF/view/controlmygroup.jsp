@@ -35,24 +35,24 @@
 .navbar {
    margin-bottom: 50px;
    border-radius: 0;
-   background-color: #ecf19e;
-   border-color: #ecf19e;
+   background-color: #f0f2f5;
+   border-color:#f0f2f5;
 }
 
 /* Remove the jumbotron's default bottom margin */
 .jumbotron {
    margin-bottom: 0;
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
 }
 
 /* Add a gray background color and some padding to the footer */
 footer {
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
    padding: 25px;
 }
 
 body {
-   background-color: #ecf19e;
+   background-color: #f0f2f5;
 }
 
 #loginSuccess {
@@ -77,9 +77,10 @@ body {
    <div class="container">
       <div class="jumbotron">
          <div class="container text-center">
-            <img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-            <h1>Moiza</h1>
-            <p>Mission, Vission & Values</p>
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
          </div>
       </div>
    </div>
@@ -103,7 +104,7 @@ body {
  
  
    <div class="container">
-      <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+     <nav class="navbar navbar-expand-sm bg-light navbar-light">
          <ul class="nav justify-content-center">
             <security:authorize access="isAnonymous()">
             
@@ -131,96 +132,124 @@ body {
                   href="${pageContext.request.contextPath}/logout"><span
                      class="glyphicon glyphicon-user"></span> Logout</a></li>
             </security:authorize>
-
+  
             <li class="nav-item"><form:form action="search"
                   class="form-inline" method="GET">
-                  <input type="text" class="form-control" size="35"
-                     placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
-                  <input type="submit" value="Search" class="btn btn-danger">
-               </form:form></li>
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				
+						<input type="text" class="form-control" size="35"
+							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
+						&nbsp;<input type="submit" value="Search" class="btn btn-info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
+					</form:form></li>
+              
          </ul>
       </nav>
    </div>
    
-   <div class="container">
-      <div class="row">
-      
-         <div class="col-sm-4">
-         그룹장으로 있는 모임<br>
-   <c:forEach var ="theleaderMgroup" items = "${theleaderMgroup}">
-            <div class="panel panel-primary">
-               <div class="panel-heading">${theleaderMgroup.mgroup_title}</div>
-               <div class="panel-body">
-                  <img src="${theleaderMgroup.mgroup_img_url}"
-                     class="img-responsive" style="width: 50%" alt="Image">
-               </div>
-               <div class="panel-footer">${theleaderMgroup.mgroup_maincategory}/${theleaderMgroup.mgroup_middlecategory}</div>
-             <security:authorize access="isAuthenticated()">     
-               <div class="panel-footer">
-               <c:url
-                     value="/group_main_post?mgroupIndex=${theleaderMgroup.mgroup_index}"
-                     var="enterGroup" />
-               <a href = "${enterGroup}" style="text-decoration-line: none">밴드 들어가기</a>
-               </div>
-               </security:authorize>
-               
-            </div>
-            </c:forEach>
-         </div>
-         
-            
-        
-            <div class="col-sm-4">
-             가입중인 모임<br>
-   <c:forEach var ="thejoinMgroup" items = "${thejoinMgroup}">
-            <div class="panel panel-primary">
-               <div class="panel-heading">${thejoinMgroup.mgroup_title}</div>
-               <div class="panel-body">
-                  <img src="${thejoinMgroup.mgroup_img_url}"
-                     class="img-responsive" style="width: 50%" alt="Image">
-               </div>
-               <div class="panel-footer">${thejoinMgroup.mgroup_maincategory}/${thejoinMgroup.mgroup_middlecategory}</div>
-             <security:authorize access="isAuthenticated()">     
-               <div class="panel-footer">
-               <c:url
-                     value="/group_main_post?mgroupIndex=${thejoinMgroup.mgroup_index}"
-                     var="enterGroup" />
-               <a href = "${enterGroup}" style="text-decoration-line: none">밴드 들어가기</a>
-               </div>
-               </security:authorize>
-               
-            </div>
-            </c:forEach>
-         </div>
-         
-         
-         <div class="col-sm-4">
-              가입대기중인 모임<br>
-   <c:forEach var ="theWaitingMgroup" items = "${theWaitingMgroup}">
-            <div class="panel panel-primary">
-               <div class="panel-heading">${theWaitingMgroup.mgroup_title}</div>
-               <div class="panel-body">
-                  <img src="${theWaitingMgroup.mgroup_img_url}"
-                     class="img-responsive" style="width: 50%" alt="Image">
-               </div>
-               <div class="panel-footer">${theWaitingMgroup.mgroup_maincategory}/${theWaitingMgroup.mgroup_middlecategory}</div>
-             <security:authorize access="isAuthenticated()">     
-               <div class="panel-footer">
-               <c:url
-                     value="/group_main_post?mgroupIndex=${theWaitingMgroup.mgroup_index}"
-                     var="enterGroup" />
-               <a href = "${enterGroup}" style="text-decoration-line: none">밴드 들어가기</a>
-               </div>
-               </security:authorize>
-               
-            </div>
-            </c:forEach>
-         </div>
-         
-         
-      </div>   
-   </div>
+  <div class="container">
+	<h2>그룹장으로 있는 모임</h2>
+		<div class="row">
 
+			
+				
+				<c:forEach var="theleaderMgroup" items="${theleaderMgroup}">
+				
+				<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">${theleaderMgroup.mgroup_title}</div>
+						<div class="panel-body">
+							<img src="${theleaderMgroup.mgroup_img_url}"
+								class="img-responsive" style="width: 50%" alt="Image">
+						</div>
+						<div class="panel-footer">${theleaderMgroup.mgroup_maincategory}/${theleaderMgroup.mgroup_middlecategory}</div>
+						<security:authorize access="isAuthenticated()">
+							<div class="panel-footer">
+								<c:url
+									value="/group_main_post?mgroupIndex=${theleaderMgroup.mgroup_index}"
+									var="enterGroup" />
+								<a href="${enterGroup}" style="text-decoration-line: none">밴드
+									들어가기</a>
+							</div>
+						</security:authorize>
+
+					</div>
+			
+			</div>
+				</c:forEach>
+		</div>
+	</div>
+
+<hr>
+
+
+	<div class="container">
+	<h2>가입중인 모임</h2>
+		<div class="row">
+			
+				
+				<c:forEach var="thejoinMgroup" items="${thejoinMgroup}">
+					<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">${thejoinMgroup.mgroup_title}</div>
+						<div class="panel-body">
+							<img src="${thejoinMgroup.mgroup_img_url}" class="img-responsive"
+								style="width: 50%" alt="Image">
+						</div>
+						<div class="panel-footer">${thejoinMgroup.mgroup_maincategory}/${thejoinMgroup.mgroup_middlecategory}</div>
+						<security:authorize access="isAuthenticated()">
+							<div class="panel-footer">
+								<c:url
+									value="/group_main_post?mgroupIndex=${thejoinMgroup.mgroup_index}"
+									var="enterGroup" />
+								<a href="${enterGroup}" style="text-decoration-line: none">밴드
+									들어가기</a>
+							</div>
+						</security:authorize>
+
+					</div>
+				
+			</div>
+			</c:forEach>
+		</div>
+	</div>
+
+
+<hr>
+	<div class="container">
+	<h3>가입대기중인 모임</h3>
+		<div class="row">
+		
+				
+				<c:forEach var="theWaitingMgroup" items="${theWaitingMgroup}">
+					<div class="col-sm-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">${theWaitingMgroup.mgroup_title}</div>
+						<div class="panel-body">
+							<img src="${theWaitingMgroup.mgroup_img_url}"
+								class="img-responsive" style="width: 50%" alt="Image">
+						</div>
+						<div class="panel-footer">${theWaitingMgroup.mgroup_maincategory}/${theWaitingMgroup.mgroup_middlecategory}</div>
+						<security:authorize access="isAuthenticated()">
+							<div class="panel-footer">
+								<c:url
+									value="/group_main_post?mgroupIndex=${theWaitingMgroup.mgroup_index}"
+									var="enterGroup" />
+								<a href="${enterGroup}" style="text-decoration-line: none">밴드
+									들어가기</a>
+							</div>
+						</security:authorize>
+
+					</div>
+						</div>
+				</c:forEach>
+		
+
+
+		</div>
+	</div>
 
    <br>
 

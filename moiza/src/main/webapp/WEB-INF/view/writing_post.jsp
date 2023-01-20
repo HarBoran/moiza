@@ -20,11 +20,16 @@
 		<div class="row">
 			<div class="colm-logo">
 
-				<div class="jumbotron">
-					<div class="container text-center">
-						<a href="${pageContext.request.contextPath}/"><h1>Moiza</h1></a>
-					</div>
-				</div>
+			 <div class="container">
+      <div class="jumbotron">
+         <div class="container text-center">
+         			<a href="${pageContext.request.contextPath}/">
+				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+				</a>
+            <h1>Moiza</h1>          
+         </div>
+      </div>
+   </div>
 			</div>
 			<div class="colm-form">
 				<div class="form-container">
@@ -39,7 +44,7 @@
 						<fmt:formatDate value="${now}" pattern="HH:mm" var="nowtime" />
 						<form:hidden path="post_time" value="${nowtime}" />
 						<button type="submit" value="Save" class="btn-login">글쓰기</button>
-						<button type="submit">글쓰기</button>
+						
 					</form:form>
 
 				</div>

@@ -65,8 +65,10 @@ public interface MoizaService {
 
 	void exportGroup(UsergroupEntity usergroupInfo);
 
-	
+	void DeleteGroupsAtUserGroup(int mgroupIndex);
 
-	
-	
+	void DeleteGroup(int mgroupIndex);
+
+	int countMember(int groupIndex);
+
 }

@@ -186,6 +186,24 @@ public class MoizaServiceImpl implements MoizaService {
 		moizaDao.exportGroup(usergroupInfo);
 	}
 
+	@Override
+	@Transactional
+	public void DeleteGroupsAtUserGroup(int mgroupIndex) {
+		moizaDao.DeleteGroupsAtUserGroup(mgroupIndex);
+		
+	}
+
+	@Override
+	@Transactional
+	public void DeleteGroup(int mgroupIndex) {
+		moizaDao.DeleteGroup(mgroupIndex);
+	}
 	
+	@Override
+	@Transactional
+	public int countMember(int groupIndex) {
+		return moizaDao.countMember(groupIndex);
+	}
+
 
 }
