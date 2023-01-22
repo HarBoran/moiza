@@ -6,7 +6,6 @@
     <fullyQualifiedTypeName name="com.code.artBBSProject.service.BBS_CommunityService"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="org.hibernate.internal.build.AllowSysOut"/>
-    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.User.UserBuilder"/>
     <fullyQualifiedTypeName name="org.springframework.security.core.userdetails.User"/>
@@ -48,4 +47,5 @@
     <fullyQualifiedTypeName name="javax.persistence.JoinColumn"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
     <fullyQualifiedTypeName name="com.moiza.dto.UsergroupUserDto"/>
+    <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 </qualifiedTypeNameHistroy>

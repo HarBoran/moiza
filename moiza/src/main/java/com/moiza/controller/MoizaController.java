@@ -1,5 +1,6 @@
 package com.moiza.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ public class MoizaController {
 
 	@GetMapping("/")
 	public String showHome(Authentication authentication, Model theModel) {
+
 		try {
 			// 스프링 시큐리티 로그인 아이디를 가져와서,
 			String userId = authentication.getName();
@@ -52,8 +54,10 @@ public class MoizaController {
 
 		List<MgroupEntity> bestGroup = moizaService.bestGroup();
 		theModel.addAttribute("bestGroup", bestGroup);
+
 		List<MgroupEntity> randomGroup = moizaService.randomGroup();
 		theModel.addAttribute("randomGroup", randomGroup);
+
 		return "main";
 	}
 
@@ -87,7 +91,6 @@ public class MoizaController {
 		return "redirect:/";
 	}
 
-	// @GetMapping("/group_main_post/{mgroupIndex}")
 	@GetMapping("/group_main_post")
 	@PreAuthorize("isAuthenticated()")
 	public String group_main_post(Authentication authentication, @RequestParam("mgroupIndex") int groupIndex,
@@ -264,7 +267,7 @@ public class MoizaController {
 	public String userModification(@RequestParam("user_index") int user_index,
 			@RequestParam("user_phone") String user_phone, @RequestParam("password") String password) {
 		moizaService.updateUserInfo(user_index, user_phone, password);
-		return "main";
+		return "redirect:/";
 	}
 
 	@GetMapping("/withdraw")
@@ -309,7 +312,6 @@ public class MoizaController {
 	@GetMapping("/ApprovNonMembers")
 	@PreAuthorize("isAuthenticated()")
 	public String ApprovNonMembers(@RequestParam("usergroup_index") int usergroup_index, Model theModel) {
-		// 모임가입 수락하기
 		UsergroupEntity UsergroupInfo = moizaService.getUsergroupInfo(usergroup_index);
 		UsergroupInfo.setUsergroup_user_role("normal");
 		moizaService.nonMemberRegistration(UsergroupInfo);
@@ -380,11 +382,13 @@ public class MoizaController {
 	public String DeleteGroup(Model theModel, HttpServletRequest request, @RequestParam("mgroupIndex") int mgroupIndex,
 			Authentication authentication, @RequestParam("count") int count) {
 		HttpSession session = request.getSession();
-
+		/* session.removeAttribute("errorDelete"); */
+		System.out.println("test" + count);
 		if (count == 1) {
 			moizaService.DeleteGroupsAtUserGroup(mgroupIndex);
 			moizaService.DeleteGroup(mgroupIndex);
 		} else if (count != 1) {
+			System.out.println("test2" + count);
 			session.setAttribute("errorDelete", "회원이 존재합니다, 그룹장을 위임하세요");
 			theModel.addAttribute("mgroupIndex", mgroupIndex);
 			return "redirect:/group_main_post";
@@ -392,4 +396,41 @@ public class MoizaController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/like")
+	public String like(@RequestParam("post_index") int like, Model themodel, Authentication authentication,
+			@RequestParam("mgroupIndex") int groupIndex) {
+
+		moizaService.pluslike(like);
+		MgroupEntity theGroup = moizaService.getConnectedGroupInfo(groupIndex);
+		themodel.addAttribute("mgroup", theGroup);
+
+		List<PostEntity> thePosts = moizaService.getConnectedGroupPosts(groupIndex);
+		themodel.addAttribute("post", thePosts);
+		try {
+			// 모임 회원등급을 기준으로
+			String userId = authentication.getName();
+			int userIndex = moizaService.UseridChangeUserindex(userId);
+			List<UsergroupEntity> theUsergroups = moizaService.getUserRole(userIndex, groupIndex);
+
+			// 모임에 가입되어 있지 않다면 guest로
+			if (theUsergroups.isEmpty()) {
+				themodel.addAttribute("theUsergroupRole", "guest");
+			} else {
+				// admin/normal/employee으로 분류함
+				String theUsergroupRole = theUsergroups.get(0).getUsergroup_user_role();
+				themodel.addAttribute("theUsergroupRole", theUsergroupRole);
+			}
+
+			int count = moizaService.countMember(groupIndex);
+			themodel.addAttribute("count", count);
+		} catch (NullPointerException e) {
+			// 비회원일떄는 로그인,회원가입 유도
+			System.out.println(e);
+
+			return "redirect:/showMyLoginPage";
+		}
+
+		return "group_main_post";
+
+	}
 }

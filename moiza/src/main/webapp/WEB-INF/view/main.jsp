@@ -200,8 +200,7 @@ body {
 						</security:authorize>
 						<input type="text" class="form-control" size="35"
 							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
-						&nbsp;<input type="submit" value="Search" class="btn btn-info"> 
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;<input type="submit" value="Search" class="btn btn-info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
 					</form:form></li>
 			</ul>

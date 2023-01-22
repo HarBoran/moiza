@@ -71,4 +71,6 @@ public interface MoizaDao {
 	
 	int countMember(int groupIndex);
 
+	void pluslike(int like);
+
 }

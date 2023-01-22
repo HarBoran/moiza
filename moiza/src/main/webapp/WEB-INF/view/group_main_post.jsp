@@ -45,7 +45,7 @@ aside {
 }
 
 section {
-   border: 2px solid #73AD21;
+   border: 2px solid #ccd0d5;
    border-radius: 25px;
    word-wrap: break-word;
    flex-basis: 100px;
@@ -92,22 +92,32 @@ bside {
             </c:if>
          </aside>
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
 
          <section>
-         
+
             <c:forEach var="tempPost" items="${post}">
-            <p>
+               <p style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);">
                <div>작성자 : ${tempPost.post_usergroup_index} </div>
                <div>${tempPost.post_date} ${tempPost.post_time}</div>
-               <div> &#x1F496; ${tempPost.post_like} &#x1f60d; ${tempPost.post_view}</div>
-               <p>${tempPost.post_maintext}</p>
-            </p>   
+                      
+               <div style="font-size:35px">${tempPost.post_maintext}</div>
+               <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);"><c:url value = "/like" var = "like">
+               <c:param name ="post_index" value= "${tempPost.post_index}"/>
+               <c:param name ="mgroupIndex" value= "${mgroup.mgroup_index}"/>
+               </c:url>
+                <a href ="${like}">&#x1F496; ${tempPost.post_like}</a></div><br>
+              </p>   
             </c:forEach>
+            
          </section>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
          <bside>
             <security:authorize access="isAuthenticated()">
-               <p>안녕하세요. <security:authentication property="principal.username"/>님. 반갑습니다.</p>
+               <p>안녕하세요. <security:authentication property="principal.username"/>님.</p>
             </security:authorize>
             <ul>
                <li><a href="${pageContext.request.contextPath}/logout"> Logout</a></li>
@@ -130,9 +140,8 @@ bside {
                   <div>
                      <%String errorDelete = (String)session.getAttribute("errorDelete");%>
                      <p style = "color: red;">${errorDelete}</p>
-                     <% session.removeAttribute("errorDelete"); %>
                   </div>
-               
+                   <% session.removeAttribute("errorDelete"); %>
                </c:if>
                <c:if test="${theUsergroupRole eq 'normal'}">
                   <li><c:url value="/ViewGroupMemberSetting" var="managing">

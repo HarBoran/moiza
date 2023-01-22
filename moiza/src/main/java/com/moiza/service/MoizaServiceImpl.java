@@ -205,5 +205,12 @@ public class MoizaServiceImpl implements MoizaService {
 		return moizaDao.countMember(groupIndex);
 	}
 
+	@Override
+	@Transactional
+	public void pluslike(int like) {
+		moizaDao.pluslike(like);
+		
+	}
+
 
 }

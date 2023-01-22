@@ -43,6 +43,7 @@
 						<form:hidden path="post_date" value="${nowdate}" />
 						<fmt:formatDate value="${now}" pattern="HH:mm" var="nowtime" />
 						<form:hidden path="post_time" value="${nowtime}" />
+						<form:hidden path="post_like" value="0" />
 						<button type="submit" value="Save" class="btn-login">글쓰기</button>
 						
 					</form:form>

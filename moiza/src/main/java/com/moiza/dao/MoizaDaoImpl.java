@@ -567,9 +567,8 @@ public class MoizaDaoImpl implements MoizaDao {
 	      Connection conn = null;
 	      Statement mySt = null;
 	      ResultSet myRs = null;
-	      System.out.println("test try");
+	   
 	      try {
-	         System.out.println("test try");
 	         conn = dataSource.getConnection();
 	         mySt = conn.createStatement();
 	         sql = "SELECT count(*) as number FROM moiza.usergroup where usergroup_group_index = "+groupIndex;         
@@ -589,6 +588,33 @@ public class MoizaDaoImpl implements MoizaDao {
 	      return count;
 	   }
 	   
+	   @Override
+	   public void pluslike(int like) {
+	      Connection conn = null;
+	      Statement mySt = null;
+	      
+
+	      
+	      try {
+	         
+	         conn = dataSource.getConnection();
+	         mySt = conn.createStatement();
+	         String sql = "update post set post_like = post_like +1  where post_index =" + like;
+	         mySt.execute(sql);
+	         System.out.println("sql");
+	         
+	         mySt.close();
+	         conn.close();
+
+	         
+	      }catch(SQLException e) {
+	         e.printStackTrace();
+	         System.out.println("test1");
+	      }
+	      
+	      
+	      
+	   }
 	 
 
 }

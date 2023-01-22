@@ -53,13 +53,30 @@
   <h2>회원정보를 형식에 맞게 변경하여 주세요 </h2>
   <form:form action="userModification" method="GET">
     <div class="form-group">
+      <label for="email">user_ID:</label>
+      <input type = "text" name = "username" class="form-control" id="username" value="${users.get(0).username}"disabled/>
+    </div>
+       <div class="form-group">
+      <label for="email">password:</label>
+      <input type = "password" name = "password" class="form-control" id="user_phone" value="${users.get(0).password}"/>
+    </div>  
+      <div class="form-group">
+      <label for="email">user_Name:</label>
+      <input type = "text" name = "user_name" class="form-control" id="user_name" value="${users.get(0).user_name}"/>
+    </div> 
+    <div class="form-group">
       <label for="email">user_phone:</label>
       <input type = "text" name = "user_phone" class="form-control" id="user_phone" value="${users.get(0).user_phone}"/>
     </div>
      <div class="form-group">
-      <label for="email">password:</label>
-      <input type = "password" name = "password" class="form-control" id="user_phone" value="${users.get(0).password}"/>
-    </div>    
+      <label for="email">user_Birth:</label>
+      <input type = "text" name = "user_birth" class="form-control" id="user_birth" value="${users.get(0).user_birth}"/>
+    </div>
+     <div class="form-group">
+      <label for="email">user_Gender:</label>
+      <input type = "text" name = "user_gender" class="form-control" id="user_gender" value="${users.get(0).user_gender}"disabled/>
+    </div>
+   
      <input type = "hidden" name = "user_index" value="${users.get(0).user_index}"/>
       
  

@@ -71,4 +71,6 @@ public interface MoizaService {
 
 	int countMember(int groupIndex);
 
+	void pluslike(int like);
+
 }
