@@ -22,9 +22,9 @@
      <div class="container">
       <div class="jumbotron">
          <div class="container text-center">
-         			<a href="${pageContext.request.contextPath}/">
-				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
-				</a>
+                  <a href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+            </a>
             <h1>Moiza</h1>          
          </div>
       </div>
@@ -48,14 +48,17 @@
                   <b>Sign UP</b>
                </h1>
                <div class="form-container">
-                  <c:if test="${param.error==''}">
-                     <div style="color: red;">이미 존재하는 아이디 입니다</div>
+                  <c:if test="${error!=''}">
+                     <div style="color: red;">${error}</div>
                   </c:if>
                   <form:form action="saveUser" method="GET" class="was-validated">
                      <div class="form-group">
                         <input type="text" name="username" placeholder="userID" required>
                         <div class="valid-feedback"></div>
                         <div class="invalid-feedback">ID를 입력해주세요</div>
+                 <c:if test="${errorId!=''}">
+                     <div style="color: red;">${errorId}</div>
+                  </c:if>
                      </div>
                      <div class="form-group">
                      <input type="password" id="password" name="password" placeholder="Password" required>
@@ -64,8 +67,9 @@
                      </div>
 
                      <input type="text" name="user_name" placeholder="Name">
+                     
                      <input type="text" name="user_phone"
-                        placeholder="Phone number (exception - ,only number)">
+                        placeholder="Phone number (don't exception -)">
                      <input type="text" name="user_birth"
                         placeholder="Birth (input six numbers)">
                      <!-- <input type="text" name="user_gender" placeholder="Gender"> -->

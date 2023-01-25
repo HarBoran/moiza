@@ -262,13 +262,36 @@ body {
 			</div>
 			<label>지역을 골라주세요~</label>
 			<div class="form-group">
-				<form:select path="mgroup_local" class="form-control" id="sel1"
+		<%-- 		<form:select path="mgroup_local_name" class="form-control" id="sel1"
 					placeholder="선택하세요">
 						<!-- <option value="">지역을 선택해 주세요</option> -->
 						<option value=0>지역제한 없음</option>
 					<c:forEach var="myLocal" items="${theLocal}">
-						<option value="${myLocal.local_index}">${myLocal.local_name}</option>
-					</c:forEach>
+						<option value="${myLocal.local_name}">${myLocal.local_name}</option>
+
+					</c:forEach>						
+						
+				</form:select> --%>
+				<form:select id="mainSelect" class="form-control"
+					path="mgroup_local_name">
+					<option value="0" selected="selected">지역을 선택하세요</option>
+					<option value="서울">서울</option>
+					<option value="경기">경기</option>
+					<option value="인천">인천</option>
+					<option value="강원">강원</option>
+					<option value="충청남도">충청남도</option>
+					<option value="대전">대전</option>
+					<option value="충청북도">충청북도</option>
+					<option value="세종">세종</option>
+					<option value="부산">부산</option>
+					<option value="울산">울산</option>
+					<option value="대구">대구</option>
+					<option value="경상북도">경상북도</option>
+					<option value="경상남도">경상남도</option>
+					<option value="광주">광주</option>
+					<option value="전라북도">전라북도</option>
+					<option value="제주">제주</option>
+					
 				</form:select>
 			</div>
 
@@ -320,7 +343,6 @@ body {
 					</c:forEach>
 				</form:select>	
 			</div>
-			
 			<button type="submit" class="btn btn-primary">등록!</button>
 		</form:form>
 	</div>

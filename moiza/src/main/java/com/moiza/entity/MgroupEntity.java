@@ -20,13 +20,11 @@ public class MgroupEntity {
 	private String mgroup_introduce;
 	private String mgroup_maincategory;
 	private String mgroup_middlecategory;
-	private int mgroup_local;
 	private String mgroup_local_name;
 	private Integer mgroup_minage;
 	private Integer mgroup_maxage;
 	private String mgroup_gender;
 	private Integer mgroup_limit;
-	private int mgroup_out;
 
 	public MgroupEntity() {
 
@@ -37,9 +35,9 @@ public class MgroupEntity {
 		return "MgroupEntity [mgroup_index=" + mgroup_index + ", mgroup_title=" + mgroup_title + ", mgroup_img="
 				+ mgroup_img + ", mgroup_img_url=" + mgroup_img_url + ", mgroup_introduce=" + mgroup_introduce
 				+ ", mgroup_maincategory=" + mgroup_maincategory + ", mgroup_middlecategory=" + mgroup_middlecategory
-				+ ", mgroup_local=" + mgroup_local + ", mgroup_local_name=" + mgroup_local_name + ", mgroup_minage="
+				 + ", mgroup_local_name=" + mgroup_local_name + ", mgroup_minage="
 				+ mgroup_minage + ", mgroup_maxage=" + mgroup_maxage + ", mgroup_gender=" + mgroup_gender
-				+ ", mgroup_limit=" + mgroup_limit + ", mgroup_out=" + mgroup_out + "]";
+				+ ", mgroup_limit=" + mgroup_limit + "]";
 	}
 
 	public int getMgroup_index() {
@@ -98,13 +96,7 @@ public class MgroupEntity {
 		this.mgroup_middlecategory = mgroup_middlecategory;
 	}
 
-	public int getMgroup_local() {
-		return mgroup_local;
-	}
 
-	public void setMgroup_local(int mgroup_local) {
-		this.mgroup_local = mgroup_local;
-	}
 
 	public String getMgroup_local_name() {
 		return mgroup_local_name;
@@ -146,12 +138,5 @@ public class MgroupEntity {
 		this.mgroup_limit = mgroup_limit;
 	}
 
-	public int getMgroup_out() {
-		return mgroup_out;
-	}
-
-	public void setMgroup_out(int mgroup_out) {
-		this.mgroup_out = mgroup_out;
-	}
 
 }

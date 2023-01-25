@@ -86,7 +86,7 @@
      <c:url value="/withdraw" var="withdraw" >
       <c:param name ="user_index" value="${users.get(0).user_index}"/>   
      </c:url>   
-      <a class="nav-link" href="${withdraw}">회원탈퇴</a>
+      <a class="nav-link" href="${withdraw}">회원탈퇴</a>6
  
 
 </div>

@@ -83,10 +83,13 @@ body {
 						<input type="text" class="form-control" size="35"
 							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
 						&nbsp;<input type="submit" value="Search" class="btn btn-info"> &nbsp;&nbsp;&nbsp;&nbsp;
+					</form:form>
+					<form:form action="searchmap"
+						class="form-inline" method="GET">
 						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
 					</form:form>
 					<br><br>
-					<a href ="${pageContext.request.contextPath}/main">홈으로~</a>
+					<a href ="${pageContext.request.contextPath}/">홈으로~</a>
  </c:if>
  </div>
  

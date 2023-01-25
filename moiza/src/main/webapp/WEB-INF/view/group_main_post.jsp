@@ -104,11 +104,36 @@ bside {
                <div>${tempPost.post_date} ${tempPost.post_time}</div>
                       
                <div style="font-size:35px">${tempPost.post_maintext}</div>
-               <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);"><c:url value = "/like" var = "like">
+               <div style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);">
+               <c:url value = "/like" var = "like">
                <c:param name ="post_index" value= "${tempPost.post_index}"/>
                <c:param name ="mgroupIndex" value= "${mgroup.mgroup_index}"/>
                </c:url>
-                <a href ="${like}">&#x1F496; ${tempPost.post_like}</a></div><br>
+                            <a href ="${like}">&#x1F496; ${tempPost.post_like}</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                           
+                           
+                           
+               
+               <c:url value="/deletePost" var="delete_post">
+               <c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+               <c:param name ="post_index" value= "${tempPost.post_index}"/>
+               </c:url>
+                        <a href="${delete_post}" style="text-decoration-line: none;float:right;">글삭제  &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            <div style="float:right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <c:url value="/edit_post" var="edit_post">
+               <c:param name="mgroupIndex" value="${mgroup.mgroup_index}" />
+               <c:param name ="post_index" value= "${tempPost.post_index}"/>
+               <c:param name ="post_usergroup_index" value= "${tempPost.post_usergroup_index}"/>
+               <c:param name ="post_maintext" value= "${tempPost.post_maintext}"/>
+          
+               
+               </c:url>
+                           <a href="${edit_post}" style="text-decoration-line: none; float:right;" >글수정</a>
+
+                           
+                          
+                </div><br>
               </p>   
             </c:forEach>
             

@@ -6,7 +6,7 @@ import com.moiza.entity.UsergroupEntity;
 import com.moiza.dto.UsergroupUserDto;
 import com.moiza.entity.Authorities;
 import com.moiza.entity.ImgEntity;
-import com.moiza.entity.LocalEntity;
+
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
@@ -51,7 +51,6 @@ public interface MoizaService {
 
 	void DeleteUser(int user_index);
 
-	List<LocalEntity> getLocal();
 
 	List<MgroupEntity> searchGroup(String searchGroup);
 
@@ -67,10 +66,16 @@ public interface MoizaService {
 
 	void DeleteGroupsAtUserGroup(int mgroupIndex);
 
-	void DeleteGroup(int mgroupIndex);
-
 	int countMember(int groupIndex);
+	void DeleteGroup(int mgroupIndex);
 
 	void pluslike(int like);
 
+	List<MgroupEntity> searchaddress(String address);
+
+	void deletePost(PostEntity deletedPost);
+
+	void saveEditedPost(PostEntity editedPost);
+
+	boolean IdCheck(String username);
 }

@@ -109,10 +109,10 @@ body {
 								id="mgroupMainImg" src="${myGroup.mgroup_img_url}" width="200"
 								height="200" alt="${myGroup.mgroup_title}" />
 								${myGroup.mgroup_introduce} ${myGroup.mgroup_maincategory}
-								${myGroup.mgroup_maincategory} ${myGroup.mgroup_local}
+								${myGroup.mgroup_maincategory}
 								${myGroup.mgroup_local_name} ${myGroup.mgroup_minage}
 								${myGroup.mgroup_maxage} ${myGroup.mgroup_gender}
-								${myGroup.mgroup_limit} ${myGroup.mgroup_out}
+								${myGroup.mgroup_limit}
 							</a>
 						</div>
 					</c:forEach>
@@ -200,8 +200,14 @@ body {
 						</security:authorize>
 						<input type="text" class="form-control" size="35"
 							placeholder="원하시는 모임을 검색해보세요!" name="searchGroup">
-						&nbsp;<input type="submit" value="Search" class="btn btn-info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;<input type="submit" value="Search" class="btn btn-info">
+						
+						</form:form></li>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<li class="nav-item"><form:form action="searchmap"
+						class="form-inline" method="GET">
 						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
+				
 					</form:form></li>
 			</ul>
 		</nav>

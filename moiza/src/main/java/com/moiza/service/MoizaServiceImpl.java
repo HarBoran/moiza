@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.moiza.entity.Authorities;
 import com.moiza.entity.ImgEntity;
-import com.moiza.entity.LocalEntity;
+
 import com.moiza.entity.MgroupEntity;
 import com.moiza.entity.PostEntity;
 import com.moiza.entity.UserEntity;
@@ -143,11 +143,7 @@ public class MoizaServiceImpl implements MoizaService {
 		moizaDao.DeleteUser(user_index);
 	}
 
-	@Override
-	@Transactional
-	public List<LocalEntity> getLocal() {
-		return moizaDao.getLocal();
-	}
+	
 
 	@Override
 	@Transactional
@@ -195,22 +191,46 @@ public class MoizaServiceImpl implements MoizaService {
 
 	@Override
 	@Transactional
-	public void DeleteGroup(int mgroupIndex) {
-		moizaDao.DeleteGroup(mgroupIndex);
+	public int countMember(int groupIndex) {
+		// TODO Auto-generated method stub
+		return moizaDao.countMember(groupIndex);
 	}
-	
+
 	@Override
 	@Transactional
-	public int countMember(int groupIndex) {
-		return moizaDao.countMember(groupIndex);
+	public void DeleteGroup(int mgroupIndex) {
+		moizaDao.DeleteGroup(mgroupIndex);
 	}
 
 	@Override
 	@Transactional
 	public void pluslike(int like) {
 		moizaDao.pluslike(like);
+	}
+
+	@Override
+	@Transactional
+	public List<MgroupEntity> searchaddress(String address) {
+		// TODO Auto-generated method stub
+		return moizaDao.searchaddress(address);
+	}
+
+	@Override
+	@Transactional
+	public void deletePost(PostEntity deletedPost) {
+		moizaDao.deletePost(deletedPost);
 		
 	}
 
+	@Override
+	@Transactional
+	public void saveEditedPost(PostEntity editedPost) {
+		moizaDao.saveEditedPost(editedPost);
+	}
+
+	@Override
+	public boolean IdCheck(String username) {
+		return moizaDao.IdCheck(username);
+	}
 
 }
