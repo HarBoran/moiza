@@ -4,12 +4,30 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>geolocation으로 마커 표시하기</title>
+    <title>클릭한 지역의 주소로 검색하기</title>
+<style>    
+    #searchMapHead {
+	display: flex;
+}
+</style>
     
 </head>
 <body>
 
-<div id="map" style="width:100%;height:500px;"></div>
+<div id = "searchMapHead">
+	<a href="${pageContext.request.contextPath}/">
+		<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+	</a>  
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	
+	<form:form action="searchonmap" method="GET">
+	<input type="text" id="address"placeholder="클릭한 지역의 주소가 표시됩니다" name="address" style="width:500px;height:70px;font-size:25px;"/>
+	<button type="submit">주소가 맞다면 검색</button>
+	</form:form>
+</div>
+
+<!-- <div id="map" style="width:100%;height:500px;"></div>-->
+ <div id="map" style="width:100%; height:90vh;"></div>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5dc0ed94ec9ffeeff4dc45923a43b505&libraries=services"></script>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -151,9 +169,5 @@ function displayMarker(locPosition, message) {
 }    
 
 </script>
-<form:form action="searchmap1" method="GET">
-<input type="text" id="address" value="address" name="address"/>
-<button type="submit">주소가 맞다면 검색</button>
-</form:form>
 </body>
 </html>

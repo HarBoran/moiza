@@ -351,6 +351,13 @@ public class MoizaDaoImpl implements MoizaDao {
    }
    
    @Override
+   public ImgEntity getImg(int img_index) {
+      Session currentSession = sessionFactory.getCurrentSession();
+      ImgEntity groupMainImage = currentSession.get(ImgEntity.class, img_index);
+      return groupMainImage;
+   }
+   
+   @Override
    public void savejoingroup(int userIndex, int mgroupIndex) {
 
       Connection conn = null;
@@ -557,9 +564,8 @@ public class MoizaDaoImpl implements MoizaDao {
          Connection conn = null;
          Statement mySt = null;
          ResultSet myRs = null;
-         System.out.println("test try");
+   
          try {
-            System.out.println("test try");
             conn = dataSource.getConnection();
             mySt = conn.createStatement();
             sql = "SELECT count(*) as number FROM moiza.usergroup where usergroup_group_index = "+groupIndex;         

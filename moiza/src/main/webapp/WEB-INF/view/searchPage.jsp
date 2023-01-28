@@ -70,7 +70,7 @@ body {
          			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
 				</a>
-            <h1>Moiza</h1>          
+                     
          </div>
       </div>
    </div>
@@ -89,7 +89,7 @@ body {
 						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
 					</form:form>
 					<br><br>
-					<a href ="${pageContext.request.contextPath}/">홈으로~</a>
+					<a href ="${pageContext.request.contextPath}/main">홈으로~</a>
  </c:if>
  </div>
  

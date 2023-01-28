@@ -43,7 +43,7 @@
          			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
 				</a>
-            <h1>Moiza</h1>          
+                   
          </div>
       </div>
    </div>

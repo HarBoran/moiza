@@ -42,6 +42,8 @@ public interface MoizaService {
 	List<UsergroupUserDto> GroupUserInfo(int mgroupIndex, int userIndex);
 
 	List<ImgEntity> getImg();
+	
+	ImgEntity getImg(int img_index);
 
 	void savejoingroup(int userIndex, int mgroupIndex);
 

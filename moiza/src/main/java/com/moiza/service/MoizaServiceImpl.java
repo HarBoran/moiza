@@ -116,7 +116,13 @@ public class MoizaServiceImpl implements MoizaService {
 	public List<ImgEntity> getImg() {
 		return moizaDao.getImg();
 	}
-
+	
+	@Override
+	@Transactional
+	public ImgEntity getImg(int img_index) {
+		return moizaDao.getImg(img_index);
+	}
+	
 	@Override
 	@Transactional
 	public void savejoingroup(int userIndex, int mgroupIndex) {

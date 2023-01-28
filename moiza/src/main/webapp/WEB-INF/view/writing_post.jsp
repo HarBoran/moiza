@@ -26,7 +26,7 @@
          			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
 				</a>
-            <h1>Moiza</h1>          
+                  
          </div>
       </div>
    </div>
@@ -37,7 +37,6 @@
 
 					<form:form action="save_written_post" modelAttribute="bowOfPost"
 						method="GET">
-						<form:hidden path="post_index"/>
 						<form:hidden path="post_usergroup_index" />
 						<form:textarea path="post_maintext" rows="5" class="form-control" placeholder="글을 작성하세요" />
 						<fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일" var="nowdate" />
@@ -45,9 +44,8 @@
 						<fmt:formatDate value="${now}" pattern="HH:mm" var="nowtime" />
 						<form:hidden path="post_time" value="${nowtime}" />
 						<form:hidden path="post_like" value="0"/>
-						<form:hidden path="post_view" value="0"/>
 						<button type="submit" value="Save" class="btn-login">글쓰기</button>
-
+						
 					</form:form>
 
 				</div>

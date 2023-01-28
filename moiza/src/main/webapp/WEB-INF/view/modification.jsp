@@ -36,6 +36,22 @@
     }
 
 </style>
+
+<script>
+      $(document).ready(function(){
+    	  $("#leaveMoiza").click(function(){
+	         if (!confirm("모이자사이트에서 탈퇴합니다.")) {
+	            return false;
+	        } else {
+	        	 if (!confirm("삭제 후에는 복구가 불가능합니다.\n정말로 탈퇴하시겟습니까?")) {
+	 	            return false;
+	 	        } else {
+	 	            alert("탈퇴가 완료되었습니다.");
+	 	        }
+	        }
+    	 });	 
+      });
+</script>
 <body>
   <div class="container">
       <div class="jumbotron">
@@ -43,7 +59,7 @@
          			<a href="${pageContext.request.contextPath}/">
 				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
 				</a>
-            <h1>Moiza</h1>          
+                   
          </div>
       </div>
    </div>
@@ -86,7 +102,7 @@
      <c:url value="/withdraw" var="withdraw" >
       <c:param name ="user_index" value="${users.get(0).user_index}"/>   
      </c:url>   
-      <a class="nav-link" href="${withdraw}">회원탈퇴</a>6
+      <a class="nav-link"id = "leaveMoiza" href="${withdraw}">회원탈퇴</a>
  
 
 </div>
