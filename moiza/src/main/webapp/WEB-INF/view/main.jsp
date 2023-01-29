@@ -76,16 +76,16 @@ body {
 <body>
 
 
-	 <div class="container">
-      <div class="jumbotron">
-         <div class="container text-center">
-         			<a href="${pageContext.request.contextPath}/">
-				<img src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
+	<div class="container">
+		<div class="jumbotron">
+			<div class="container text-center">
+				<a href="${pageContext.request.contextPath}/"> <img
+					src="${pageContext.request.contextPath}/img/moiza_logo.jpg" />
 				</a>
-            <!-- <h1>Moiza</h1>           -->
-         </div>
-      </div>
-   </div>
+				<!-- <h1>Moiza</h1>           -->
+			</div>
+		</div>
+	</div>
 
 	<security:authorize access="isAuthenticated()">
 		<div class="container">
@@ -104,8 +104,9 @@ body {
 								<c:param name="mgroupIndex" value="${myGroup.mgroup_index}" />
 							</c:url>
 							<a href="${enterGroup}" style="text-decoration-line: none">
-								<div>${myGroup.mgroup_title}</div>
-								<img id="mgroupMainImg" src="${myGroup.mgroup_img_url}" width="200" height="200" alt="${myGroup.mgroup_title}" />
+								<div>${myGroup.mgroup_title}</div> <img id="mgroupMainImg"
+								src="${myGroup.mgroup_img_url}" width="200" height="200"
+								alt="${myGroup.mgroup_title}" />
 								<div>${myGroup.mgroup_introduce}</div>
 							</a>
 						</div>
@@ -151,7 +152,7 @@ body {
 	</security:authorize>
 
 	<div class="container">
-<nav class="navbar navbar-expand-sm bg-light navbar-light">
+		<nav class="navbar navbar-expand-sm bg-light navbar-light">
 			<ul class="nav justify-content-center">
 				<security:authorize access="isAnonymous()">
 					<li class="nav-item"><a class="nav-link"
@@ -166,19 +167,21 @@ body {
 
 				<security:authorize access="isAuthenticated()">
 					<li class="nav-item"><a class="nav-link"
-						href="${pageContext.request.contextPath}/Mypage">
-						<span class="glyphicon glyphicon-user"></span> My Page
+						href="${pageContext.request.contextPath}/Mypage"> <span
+							class="glyphicon glyphicon-user"></span> My Page
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.request.contextPath}/beforeGroupCreation">
-						<span class="glyphicon glyphicon-user"></span> groupCreation
+							<span class="glyphicon glyphicon-user"></span> groupCreation
 					</a></li>
 					<li><a class="nav-link"
-						href="${pageContext.request.contextPath}/logout">
-						<span class="glyphicon glyphicon-user"></span> Logout</a></li>
+						href="${pageContext.request.contextPath}/logout"> <span
+							class="glyphicon glyphicon-user"></span> Logout
+					</a></li>
 				</security:authorize>
-                
-				<li class="nav-item"><form:form action="search"	class="form-inline" method="GET">
+
+				<li class="nav-item"><form:form action="search"
+						class="form-inline" method="GET">
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -194,78 +197,89 @@ body {
 						<input type="text" class="form-control" size="35"
 							placeholder="🔍 원하시는 모임을 검색해보세요!" name="searchGroup">
 						&nbsp;<input type="submit" value="Search" class="btn btn-info">
-						</form:form>
-						</li>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<li class="nav-item">
-						<form:form action="searchmap"
+					</form:form></li>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<li class="nav-item"><form:form action="searchmap"
 						class="form-inline" method="GET">
 						<input type="submit" value="지도로 검색하기" class="btn btn-primary">
-				
+
 					</form:form></li>
 			</ul>
 		</nav>
 	</div>
 
 	<style>
-	#bestGroup{
-		display: grid;
-		grid-template-columns: 1fr 1fr  1fr;
-		grid-gap: 50px;
-	}
-	#bestGroupImg{
-		float: left;
-		width: 120px; 
-		height: 120px;
-		border-radius: 30px;
-		margin-right : 20px;
-	}
-	
-	#mgroupTitle{
-		font-size: 20px;
-		overflow: hidden;
-	    text-overflow: ellipsis;
-	    white-space: nowrap;
-		
-	}
-	#mgroupIntroduce{
-		overflow: hidden;
-	    text-overflow: ellipsis;
-	    white-space: nowrap;
-	}
-	#category{
-		color : gray;
-		white-space : pre;
-	}
-	a:link {
-	  color : black;
-	}
-	a:visited {
-	  color : black;
-	}
-	</style>	
-	
+#bestGroup {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 50px;
+}
+
+#bestGroupImg {
+	float: left;
+	width: 120px;
+	height: 120px;
+	border-radius: 30px;
+	margin-right: 20px;
+}
+
+#mgroupTitle {
+	font-size: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#mgroupIntroduce {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#category {
+	color: gray;
+	white-space: pre;
+}
+
+a:link {
+	color: black;
+}
+
+a:visited {
+	color: black;
+}
+</style>
+
 	<div class="container">
-		<div id = bestGroup>
-			<c:forEach var="randomGroup" items="${randomGroup}" varStatus="status">
-			<div>
-			<c:url value="/group_main_post?mgroupIndex=${randomGroup.mgroup_index}" var="enterGroup" />
-				<a href="${enterGroup}" style="text-decoration-line: none; text-decoration-color : black; webkit-text-decoration-color: red;">
-				
-					<img src="${randomGroup.mgroup_img_url}" id = "bestGroupImg">
-					<div id = "mgroupTitle">${randomGroup.mgroup_title}</div>
-					<div id = "mgroupIntroduce"> ${randomGroup.mgroup_introduce}</div>
-					<div id = "category">${randomGroup.mgroup_maincategory} / ${randomGroup.mgroup_middlecategory} · 맴버 ${randomGroup.mgroup_limit}명 </div>
-				</a>
-			</div>
+		<div id=bestGroup>
+			<c:forEach var="randomGroup" items="${randomGroup}"
+				varStatus="status">
+				<div>
+					<c:url
+						value="/group_main_post?mgroupIndex=${randomGroup.mgroup_index}"
+						var="enterGroup" />
+					<a href="${enterGroup}"
+						style="text-decoration-line: none; text-decoration-color: black; webkit-text-decoration-color: red;">
+
+						<img src="${randomGroup.mgroup_img_url}" id="bestGroupImg">
+						<div id="mgroupTitle">${randomGroup.mgroup_title}</div>
+						<div id="mgroupIntroduce">${randomGroup.mgroup_introduce}</div>
+						<div id="category">${randomGroup.mgroup_maincategory}/
+							${randomGroup.mgroup_middlecategory} · 맴버
+							${randomGroup.mgroup_limit}명</div>
+					</a>
+				</div>
 
 			</c:forEach>
 		</div>
 	</div>
-	
-	
-	<br><br><br><br>
-	
+
+
+	<br>
+	<br>
+	<br>
+	<br>
+
 
 
 </body>
