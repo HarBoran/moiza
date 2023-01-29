@@ -264,9 +264,7 @@ a:visited {
 						<img src="${randomGroup.mgroup_img_url}" id="bestGroupImg">
 						<div id="mgroupTitle">${randomGroup.mgroup_title}</div>
 						<div id="mgroupIntroduce">${randomGroup.mgroup_introduce}</div>
-						<div id="category">${randomGroup.mgroup_maincategory}/
-							${randomGroup.mgroup_middlecategory} · 맴버
-							${randomGroup.mgroup_limit}명</div>
+						<div id="category">${randomGroup.mgroup_maincategory}/ ${randomGroup.mgroup_middlecategory} · 맴버 ${randomGroup.mgroup_limit}명</div>
 					</a>
 				</div>
 
